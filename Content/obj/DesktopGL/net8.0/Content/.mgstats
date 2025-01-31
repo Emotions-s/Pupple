@@ -1,4 +1,0 @@
-Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"/Users/emotions/Documents/KMITL/StudentWorks/Senior_year/comGame/Pupple/Content/objects/Balls.png","/Users/emotions/Documents/KMITL/StudentWorks/Senior_year/comGame/Pupple/Content/bin/DesktopGL/Content/objects/Balls.xnb","TextureProcessor","Texture2DContent",6075,115285,0.071082
-"/Users/emotions/Documents/KMITL/StudentWorks/Senior_year/comGame/Pupple/Content/objects/Bubble.png","/Users/emotions/Documents/KMITL/StudentWorks/Senior_year/comGame/Pupple/Content/bin/DesktopGL/Content/objects/Bubble.xnb","TextureProcessor","Texture2DContent",888,12629,0.094605
-"/Users/emotions/Documents/KMITL/StudentWorks/Senior_year/comGame/Pupple/Content/objects/Shooter.png","/Users/emotions/Documents/KMITL/StudentWorks/Senior_year/comGame/Pupple/Content/bin/DesktopGL/Content/objects/Shooter.xnb","TextureProcessor","Texture2DContent",1324,97429,0.068549
