@@ -1,4 +1,5 @@
 using System;
+using System.Net.NetworkInformation;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,11 +15,12 @@ class Globals
     public const float BubbleRadius = 28f;
     public const float BubblePadding = 2f;
     public const int BubbleQueueMaxSize = 4;
+    public const float BubbleSpeed = 20f;
     public static SpriteBatch SpriteBatch { get; set; }
-
     public static ContentManager Content { get; set; }
     public static GraphicsDevice GraphicsDevice { get; set; }
-
+    public static BubbleManager BubbleManager { get; set; }
+    public static Shooter Shooter { get; set; }
     public static Texture2D Pixel { get; set; }
 
     public static Texture2D BubbleTexture { get; set; }

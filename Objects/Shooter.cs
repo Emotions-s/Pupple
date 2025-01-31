@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pupple;
@@ -10,6 +11,8 @@ public class Shooter : IComponent
     private Texture2D _texture;
 
     private Vector2 _position;
+
+    private readonly Vector2 __positionOrigin;
 
     private Vector2 _windowOrigin;
 
@@ -29,19 +32,24 @@ public class Shooter : IComponent
                     Vector2 windowOrigin)
     {
         _texture = texture;
-        _position = position;
+        __positionOrigin = position;
         _windowOrigin = windowOrigin;
-
-        _bubbleQueue = new Bubble[Globals.BubbleQueueMaxSize + 1];
 
         _minAngle = -MathHelper.Pi + 0.0001f;
         _maxAngle = 0 - 0.0001f;
-
-        _moveSpeed = 200f;
-        _shootSpeed = 20f;
-        _angle = 0f;
-
         _origin = new Vector2(_texture.Width / 2f, _texture.Height / 2f);
+
+        Reset();
+    }
+
+    public void Reset()
+    {
+        _position = __positionOrigin;
+        _moveSpeed = 200f;
+        _shootSpeed = Globals.BubbleSpeed;
+        _angle = 0f;
+        _bubbleQueue = new Bubble[Globals.BubbleQueueMaxSize + 1];
+        Reload();
     }
     public void Update()
     {
@@ -67,12 +75,10 @@ public class Shooter : IComponent
             ShootCurrentBubble();
         }
         _bubbleQueue[0]?.Update();
-        Reload();
 
-        System.Console.WriteLine(_bubbleQueue[0].Position);
-        if (!_bubbleQueue[0].IsActive)
+        if (_bubbleQueue[0]?.IsMoving == true)
         {
-            _bubbleQueue[0] = null;
+            Globals.BubbleManager.HandleShotBubble(_bubbleQueue[0]);
         }
     }
 
@@ -114,9 +120,11 @@ public class Shooter : IComponent
         return bubble;
     }
 
-    private void Reload()
+    public void Reload()
     {
-        if (_bubbleQueue[0] != null) return;
+        // if (_bubbleQueue[0] != null) return;
+
+        _bubbleQueue[0] = null;
 
         while (_bubbleQueue[0] == null)
         {

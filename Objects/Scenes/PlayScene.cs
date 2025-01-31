@@ -12,7 +12,6 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
     public const int LeftBarOffset = 0;
     public const int GameWindowOffset = SideBarWidth;
     public const int RightBarOffset = SideBarWidth + GameWindowWidth;
-    private BubbleManager _bubbleManager;
 
     private Window[] _windows;
 
@@ -27,12 +26,9 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
         };
 
         // game window
-
-        _bubbleManager = new BubbleManager(17, 20);
-
+        Globals.BubbleManager = new BubbleManager(17, 20);
         Texture2D shooterTex = Globals.Content.Load<Texture2D>("objects/Shooter");
-
-        Shooter shooter = new(shooterTex,
+        Globals.Shooter = new(shooterTex,
             new(1200 / 2, 1000),
             new Vector2(360, 0)
         );
@@ -40,8 +36,8 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
         Window gameWindow = new(GameWindowWidth, Globals.ScreenH, new(GameWindowOffset, 0), new Color(44, 120, 143))
         {
             Components = [
-                _bubbleManager,
-                shooter
+                Globals.BubbleManager,
+                Globals.Shooter
             ],
         };
 
@@ -60,11 +56,11 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
     }
     public override void Activate()
     {
+        
     }
 
     public override void Update()
     {
-        // _bubbleManager.Update();
         for (int i = 0; i < _windows.Length; i++)
         {
             _windows[i].Update();

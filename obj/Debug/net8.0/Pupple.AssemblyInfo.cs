@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Pupple")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ebf84162ba361eb947f6d3fbc636fb5f5d3c026a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+53b7c7cd13788967e783b95f6cbf687ec1a0a53d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Pupple")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Pupple")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pupple.Objects.Scenes;
@@ -16,18 +17,30 @@ public abstract class Bubble : IComponent
 
     public Vector2 Velocity { get; set; }
 
-    public float Radius { get; set; }
-
     public Bubble(Vector2 pos, Texture2D texture)
     {
         Position = pos;
         _texture = texture;
+        Reset();
+    }
+
+    public void Reset()
+    {
+        Velocity = Vector2.Zero;
         IsActive = true;
+        IsMoving = false;
     }
 
     public void Update()
     {
+        // check to bounce off walls
+
         Position += Velocity;
+
+        if (Position.X < Globals.BubbleRadius || Position.X > PlayScene.GameWindowWidth - Globals.BubbleRadius)
+        {
+            Velocity = new Vector2(-Velocity.X, Velocity.Y);
+        }
 
         if (IsMoving && !IsInWindow())
         {
@@ -48,6 +61,12 @@ public abstract class Bubble : IComponent
             SpriteEffects.None,
             0f
         );
+    }
+
+    public bool IsColliding(Bubble bubble)
+    {
+        float distance = Vector2.Distance(Position, bubble.Position);
+        return distance <= Globals.BubbleRadius * 2;
     }
 
     private bool IsInWindow()
