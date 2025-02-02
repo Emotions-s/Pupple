@@ -1,7 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 using Pupple.Managers;
 using Pupple.States;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace Pupple;
 
@@ -10,6 +13,7 @@ public class Pupple : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private GameManager _gameManager;
+    private Song backgroundMusic;
 
     public Pupple()
     {
@@ -47,6 +51,15 @@ public class Pupple : Game
         Globals.Pixel = pixel;
         Globals.GameState = new GameState();
         Globals.PlayerState = new PlayerState();
+        Globals.PopSound = Content.Load<SoundEffect>("BubblePop");
+        Globals.CollideSound = Content.Load<SoundEffect>("BubbleCollide");
+        Globals.DropSound = Content.Load<SoundEffect>("Drop");
+        Globals.WinSound = Content.Load<SoundEffect>("Win");
+        Globals.LoseSound = Content.Load<SoundEffect>("Lose");
+        backgroundMusic = Content.Load<Song>("BackgroundMusic");
+        MediaPlayer.IsRepeating = true;
+        MediaPlayer.Play(backgroundMusic);
+        MediaPlayer.Volume = 0.3f;
         _gameManager = new();
     }
 

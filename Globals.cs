@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Pupple.Managers;
 using Pupple.States;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Pupple;
 
@@ -37,6 +38,15 @@ class Globals
     public static Color DarkerBlueColor = new Color(40, 71, 81);
 
     public readonly Random Random = new Random();
+    public static SoundEffect PopSound;
+
+    public static SoundEffect CollideSound;
+
+    public static SoundEffect DropSound;
+
+    public static SoundEffect WinSound;
+
+    public static SoundEffect LoseSound;
     private Globals()
     {
     }

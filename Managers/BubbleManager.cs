@@ -115,6 +115,7 @@ public class BubbleManager : IComponent
                     return;
                 }
                 Globals.GameState.CurrentState = GameState.State.GameOver;
+                Globals.LoseSound.Play();
                 return;
             }
         }
@@ -158,6 +159,7 @@ public class BubbleManager : IComponent
                 if (targetBubble != null && shotBubble.IsColliding(targetBubble) || shotBubble.Position.Y < _bubbleRadius)
                 {
                     AddBubble(shotBubble, shotGridPos.Y, shotGridPos.X);
+                    Globals.CollideSound.Play();
                     Globals.Shooter.Reload();
                     return;
                 }
