@@ -24,7 +24,7 @@ public abstract class Bubble : IComponent
 
     // Floating behavior
     public bool IsFloating { get; private set; } = false;
-    private float floatSpeed = -50f; // Moves up first
+    private float floatSpeed = -100f; // Moves up first
     private float fallSpeed = 3000f;  // Falls down after delay
     private float floatTime = 0.3f;  // Time before falling
     private float elapsedTime = 0f; 
@@ -72,7 +72,7 @@ public abstract class Bubble : IComponent
         else if (IsFloating)
         {
             elapsedTime += (float)Globals.Time;
-            
+
             if (elapsedTime < floatTime)
             {
                 Position += new Vector2(0, floatSpeed * (float)Globals.Time); // Move up
