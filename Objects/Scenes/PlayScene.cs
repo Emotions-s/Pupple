@@ -26,13 +26,15 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
         LevelBox levelBox = new(Globals.GridSize * 6, Globals.GridSize * 1, new Vector2(0, Globals.GridSize * 1), null, Globals.DarkerBlueColor, Color.White);
         ExtraLifeBox extraLifeBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 3), "Extra Life", Color.White, Globals.DarkBlueColor, Globals.ShooterSceneSheet, BubbleHelper.ActiveShieldViewPort, BubbleHelper.InactiveShieldViewPort);
         MissCountBox missCountBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 7), "Miss Count", Globals.DarkerBlueColor, Color.White, Globals.ShooterSceneSheet, BubbleHelper.ActiveMissViewPort, BubbleHelper.InactiveMissViewPort);
+        FreezeTimeBox freezeTimeBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 9), "Freeze", Color.LightGray, Globals.DarkerBlueColor);
 
         Window leftWindow = new(SideBarWidth, Globals.ScreenH, new(LeftBarOffset, 0), Globals.BlueColor)
         {
             Components = [
                 levelBox,
                 extraLifeBox,
-                missCountBox
+                missCountBox,
+                freezeTimeBox
             ],
         };
 

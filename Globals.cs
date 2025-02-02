@@ -35,6 +35,8 @@ class Globals
 
     public static Color DarkerBlueColor = new Color(40, 71, 81);
 
+    public static Color FreezeColor = new Color(127, 220, 220);
+
     public readonly Random Random = new Random();
     public static SoundEffect PopSound;
 
