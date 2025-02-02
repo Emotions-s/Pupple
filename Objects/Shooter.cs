@@ -51,7 +51,6 @@ public class Shooter : IComponent
         _angle = 0f;
         BubbleQueue = new Bubble[PlayerState.BubbleQueueMaxSize + 1];
         Reload();
-        // BubbleQueue[0] = new FreezeBubble(_position, Globals.BubbleTexture);
     }
     public void Update()
     {
@@ -60,18 +59,19 @@ public class Shooter : IComponent
         float delta = (float)Globals.Time;
         if (InputManager.IsLeftHeld)
         {
-            if (BubbleQueue[0]?.IsMoving == false)
-                BubbleQueue[0].Position = new Vector2(BubbleQueue[0].Position.X - _moveSpeed * delta, BubbleQueue[0].Position.Y);
             _position.X -= _moveSpeed * delta;
         }
         if (InputManager.IsRightHeld)
         {
-            if (BubbleQueue[0]?.IsMoving == false)
-                BubbleQueue[0].Position = new Vector2(BubbleQueue[0].Position.X + _moveSpeed * delta, BubbleQueue[0].Position.Y);
             _position.X += _moveSpeed * delta;
         }
 
         _position.X = MathHelper.Clamp(_position.X, 0, 1200);
+
+        if (BubbleQueue[0]?.IsMoving == false)
+        {
+            BubbleQueue[0].Position = _position;
+        }
 
         RotateToMouse();
         if (InputManager.Clicked && Common.IsInGameWindow(InputManager.MousePosition))
@@ -142,6 +142,7 @@ public class Shooter : IComponent
             }
             BubbleQueue[Globals.PlayerState.CurrentBubbleQueueSize] = GenerateRandomBubble();
         }
+        BubbleQueue[0].Position = _position;
     }
 
     private void ShootCurrentBubble()
