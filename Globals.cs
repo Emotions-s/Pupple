@@ -22,6 +22,7 @@ class Globals
     public static Shooter Shooter { get; set; }
     public static Texture2D Pixel { get; set; }
     public static Texture2D ShooterSceneSheet { get; set; }
+    public static Texture2D CardSheet { get; set; }
     public static SpriteFont Font { get; set; }
     public static GameState GameState { get; set; }
     public static PlayerState PlayerState { get; set; }
@@ -33,7 +34,7 @@ class Globals
 
     public static Color DarkerBlueColor = new Color(40, 71, 81);
 
-    public readonly Random random = new Random();
+    public readonly Random Random = new Random();
     private Globals()
     {
     }

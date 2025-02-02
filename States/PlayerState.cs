@@ -1,5 +1,3 @@
-using System.Diagnostics.Contracts;
-
 namespace Pupple.States;
 
 public class PlayerState

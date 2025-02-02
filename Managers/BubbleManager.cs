@@ -57,7 +57,7 @@ public class BubbleManager : IComponent
         {
             if (_bubbles[_maxRows - 1, col] != null)
             {
-                Globals.GameState.IsDead = true;
+                Globals.GameState.CurrentState = GameState.State.GameOver;
                 return;
             }
         }
@@ -146,7 +146,7 @@ public class BubbleManager : IComponent
 
     private BubbleColor PickColorBasedOnNeighbors(int row, int col, bool isShortRow)
     {
-        Random random = Globals.Instance.random;
+        Random random = Globals.Instance.Random;
         bool ignoreNeighbors = random.Next(0, 100) < 50;
 
         if (!ignoreNeighbors)

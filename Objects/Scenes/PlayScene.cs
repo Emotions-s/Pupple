@@ -1,7 +1,9 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Pupple.Managers;
+using Pupple.States;
 
 namespace Pupple.Objects.Scenes;
 
@@ -75,21 +77,26 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
         ];
         _windowTargets = new RenderTarget2D[_windows.Length];
     }
-    public override void Activate()
+    public override void Reset()
     {
-        if (Globals.GameState.IsDead)
+        Globals.GameState.Reset();
+        Globals.PlayerState.Reset();
+        for (int i = 0; i < _windows.Length; i++)
         {
-            Globals.GameState.Reset();
-            Globals.PlayerState.Reset();
-            for (int i = 0; i < _windows.Length; i++)
-            {
-                _windows[i].Reset();
-            }
+            _windows[i].Reset();
         }
     }
 
     public override void Update()
     {
+        if (Globals.GameState.CurrentState == GameState.State.GameOver)
+        {
+            if (InputManager.KeyPressed(Keys.Space))
+            {
+                Reset();
+            }
+            return;
+        }
         for (int i = 0; i < _windows.Length; i++)
         {
             _windows[i].Update();
@@ -107,6 +114,10 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
         {
             Globals.SpriteBatch.Draw(_windowTargets[i], _windows[i].OriginPos, Color.White);
         }
+        if (Globals.GameState.CurrentState == GameState.State.GameOver)
+        {
+            ShowDeadScreen();
+        }
     }
 
     public override RenderTarget2D GetFrame()
@@ -123,5 +134,48 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
         Globals.SpriteBatch.End();
         Globals.GraphicsDevice.SetRenderTarget(null);
         return target;
+    }
+
+    private void ShowDeadScreen()
+    {
+        Globals.SpriteBatch.Draw(Globals.Pixel, new Rectangle(0, 0, Globals.ScreenW, Globals.ScreenH), Color.Black * 0.8f);
+        var text = "You died!";
+        var textSize = Globals.Font.MeasureString(text);
+        Globals.SpriteBatch.DrawString(Globals.Font,
+            text,
+            new Vector2(Globals.ScreenW / 2, 300),
+            Color.Red,
+            0f,
+            textSize / 2,
+            1.5f,
+            SpriteEffects.None,
+            0f
+        );
+
+        text = "Your highest level is " + Globals.GameState.Level;
+        textSize = Globals.Font.MeasureString(text);
+        Globals.SpriteBatch.DrawString(Globals.Font,
+            text,
+            new Vector2(Globals.ScreenW / 2, 400),
+            Color.White,
+            0f,
+            textSize / 2,
+            1f,
+            SpriteEffects.None,
+            0f
+        );
+
+        text = "Press Space to restart";
+        textSize = Globals.Font.MeasureString(text);
+        Globals.SpriteBatch.DrawString(Globals.Font,
+            text,
+            new Vector2(Globals.ScreenW / 2, 800),
+            Color.White,
+            0f,
+            textSize / 2,
+            0.75f,
+            SpriteEffects.None,
+            0f
+        );
     }
 }

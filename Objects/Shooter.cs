@@ -58,7 +58,7 @@ public class Shooter : IComponent
     }
     public void Update()
     {
-        if (Globals.GameState.IsDead) return;
+        if (Globals.GameState.CurrentState != GameState.State.Playing) return;
 
         float delta = (float)Globals.Time;
         if (InputManager.IsLeftHeld)
