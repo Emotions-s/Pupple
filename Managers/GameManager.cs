@@ -1,4 +1,6 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using Pupple.Objects.Scenes;
 
 namespace Pupple.Managers;
 
@@ -13,6 +15,10 @@ public class GameManager
     public void Update()
     {
         _sceneManager.Update();
+        if (InputManager.KeyPressed(Keys.F1))
+        {
+            _sceneManager.SwitchScene(ScenesType.PlayScene);
+        }
     }
 
     public void Draw()

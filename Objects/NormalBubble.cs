@@ -10,8 +10,7 @@ public class NormalBubble : Bubble
     public NormalBubble(Vector2 position, Texture2D texture2D, BubbleColor color) : base(position, texture2D)
     {
         Color = color;
-        Viewport = BubbleHelper.BubbleViewPort[Color];
+        Viewport = BubbleHelper.NormalBubbleViewPort[Color];
     }
-
 
 }

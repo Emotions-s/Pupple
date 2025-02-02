@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Microsoft.Xna.Framework;
 using Pupple.Objects;
+using Pupple.States;
 
 namespace Pupple.Managers;
 
@@ -13,7 +16,7 @@ public class BubbleManager : IComponent
     private readonly float _bubblePadding;
     private readonly float _bubbleLength;
     public readonly float _rowHeight;
-    private readonly Bubble[,] _bubbles;
+    private Bubble[,] _bubbles;
     private bool _isNextRowShort = false;
     public BubbleManager(int maxRows, int maxColumns)
     {
@@ -36,7 +39,8 @@ public class BubbleManager : IComponent
 
     public void Reset()
     {
-        for (int i = 0; i < 2; i++)
+        _bubbles = new Bubble[_maxRows, _maxColumns];
+        for (int i = 0; i < Globals.GameState.CurrentLineStart; i++)
         {
             AddNewTopLine();
         }
@@ -44,12 +48,19 @@ public class BubbleManager : IComponent
 
     public void Update()
     {
-        // _time += Globals.Time;
-        // if ((int)_time > 0)
-        // {
-        //     _time -= 1;
-        //     AddNewTopLine();
-        // }
+        CheckLost();
+    }
+
+    private void CheckLost()
+    {
+        for (int col = 0; col < _maxColumns; col++)
+        {
+            if (_bubbles[_maxRows - 1, col] != null)
+            {
+                Globals.GameState.IsDead = true;
+                return;
+            }
+        }
     }
 
     public void Draw()
@@ -70,7 +81,7 @@ public class BubbleManager : IComponent
         Point[] gridPositions = new Point[6];
         for (int i = 0; i < 6; i++)
         {
-            int[] offset = isShortRow(shotGridPos.Y) ? BubbleHelper.ShortRowOffsets[i] : BubbleHelper.LongRowOffsets[i];
+            int[] offset = IsShortRow(shotGridPos.Y) ? BubbleHelper.ShortRowOffsets[i] : BubbleHelper.LongRowOffsets[i];
             gridPositions[i] = new Point(shotGridPos.X + offset[1], shotGridPos.Y + offset[0]);
         }
         for (int i = 0; i < gridPositions.Length; i++)
@@ -89,7 +100,7 @@ public class BubbleManager : IComponent
         }
     }
 
-    private bool isShortRow(int row)
+    private bool IsShortRow(int row)
     {
         return row % 2 == 1 ? _isNextRowShort : !_isNextRowShort;
     }
@@ -99,7 +110,7 @@ public class BubbleManager : IComponent
         int row = (int)(position.Y / _rowHeight);
         int col = (int)(position.X / (_bubbleLength + _bubblePadding * 2));
 
-        if (isShortRow(row))
+        if (IsShortRow(row))
         {
             col = (int)((position.X - (_bubbleLength + _bubblePadding) / 2) / (_bubbleLength + _bubblePadding * 2));
         }
@@ -152,6 +163,8 @@ public class BubbleManager : IComponent
         return PickRandomColor();
     }
 
+
+
     private List<BubbleColor> GetNeighborColors(int row, int col, bool isShortRow)
     {
         List<BubbleColor> colors = new();
@@ -179,7 +192,7 @@ public class BubbleManager : IComponent
     public void AddBubble(Bubble bubble, int row, int col)
     {
         _bubbles[row, col] = bubble;
-        bubble.Position = CalculatePosition(row, col, isShortRow(row));
+        bubble.Position = CalculatePosition(row, col, IsShortRow(row));
         bubble.Reset();
         CheckForBubblePop(row, col);
         RemoveFloatingBubbles();
@@ -212,16 +225,134 @@ public class BubbleManager : IComponent
 
     private void CheckForBubblePop(int row, int col)
     {
+        Bubble targetBubble = _bubbles[row, col];
+
+        if (targetBubble == null) return;
+
+        HashSet<Vector2> bubblesToDestroy = new();
+
+        if (targetBubble is NormalBubble)
+        {
+            bubblesToDestroy = GetNormalBubblePop(row, col);
+        }
+        else if (targetBubble is BombBubble)
+        {
+            bubblesToDestroy = GetBombBubblePop(row, col);
+        }
+        else if (targetBubble is RainbowBubble)
+        {
+            bubblesToDestroy = GetRainbowBubblePop(row, col);
+        }
+        else if (targetBubble is FreezeBubble)
+        {
+            bubblesToDestroy = GetFreezeBubblePop(row, col);
+        }
+
+        if (bubblesToDestroy.Count == 0 && Globals.GameState.FreezeTime <= 0)
+        {
+            Globals.GameState.MissCount++;
+            if (Globals.GameState.MissCount == GameState.MaxMissCount)
+            {
+                AddNewTopLine();
+                Globals.GameState.MissCount = 0;
+            }
+            return;
+        }
+
+        if (targetBubble is NormalBubble)
+        {
+            Globals.GameState.MissCount = 0;
+        }
+
+        foreach (Vector2 pos in bubblesToDestroy)
+        {
+            _bubbles[(int)pos.Y, (int)pos.X] = null;
+        }
+
+    }
+
+    private HashSet<Vector2> GetNormalBubblePop(int row, int col)
+    {
         BubbleColor targetColor = ((NormalBubble)_bubbles[row, col]).Color;
         List<Vector2> connectedBubbles = FindConnectedBubblesColor(col, row, targetColor);
 
         if (connectedBubbles.Count >= 3)
         {
-            foreach (Vector2 bubblePos in connectedBubbles)
+            return new HashSet<Vector2>(connectedBubbles);
+        }
+        return new HashSet<Vector2>();
+
+    }
+
+    private HashSet<Vector2> GetBombBubblePop(int row, int col)
+    {
+        HashSet<Vector2> bubblesToDestroy = [new Vector2(col, row)];
+
+        for (int i = 0; i < BombBubble.BombRadius; i++)
+        {
+            HashSet<Vector2> neighbors = new();
+            foreach (Vector2 pos in bubblesToDestroy)
             {
-                _bubbles[(int)bubblePos.Y, (int)bubblePos.X] = null;
+                GetAllNeighbors((int)pos.X, (int)pos.Y).ForEach(neighbor => neighbors.Add(neighbor));
+            }
+            foreach (Vector2 neighbor in neighbors)
+            {
+                bubblesToDestroy.Add(neighbor);
             }
         }
+
+        return bubblesToDestroy;
+    }
+
+    private HashSet<Vector2> GetRainbowBubblePop(int row, int col)
+    {
+        HashSet<Vector2> bubblesToDestroy = new();
+
+        List<Vector2> neighbors = GetAllNeighbors(col, row);
+
+        List<BubbleColor> colors = new();
+
+        foreach (Vector2 pos in neighbors)
+        {
+            if (_bubbles[(int)pos.Y, (int)pos.X] is NormalBubble)
+            {
+                colors.Add(((NormalBubble)_bubbles[(int)pos.Y, (int)pos.X]).Color);
+            }
+        }
+
+        foreach (var color in colors)
+        {
+            var connectBubble = FindConnectedBubblesColor(col, row, color);
+            if (connectBubble.Count >= 3)
+            {
+                bubblesToDestroy.UnionWith(connectBubble);
+            }
+        }
+
+        bubblesToDestroy.Add(new Vector2(col, row));
+        return bubblesToDestroy;
+    }
+
+    private HashSet<Vector2> GetFreezeBubblePop(int row, int col)
+    {
+        Globals.GameState.FreezeTime = FreezeBubble.FreezeTime;
+        return [new(col, row)];
+    }
+
+    private List<Vector2> GetAllNeighbors(int col, int row)
+    {
+        List<Vector2> neighbors = new();
+        foreach (var offset in IsShortRow(row) ? BubbleHelper.ShortRowOffsets : BubbleHelper.LongRowOffsets)
+        {
+            int neighborRow = row + offset[0];
+            int neighborCol = col + offset[1];
+
+            if (IsValidGridPosition(neighborCol, neighborRow))
+            {
+                neighbors.Add(new Vector2(neighborCol, neighborRow));
+            }
+        }
+        return neighbors;
     }
 
     private List<Vector2> FindConnectedBubblesColor(int col, int row, BubbleColor color)
@@ -240,11 +371,11 @@ public class BubbleManager : IComponent
             int r = (int)pos.Y;
             int c = (int)pos.X;
 
-            if (_bubbles[r, c] != null && ((NormalBubble)_bubbles[r, c]).Color == color)
+            if (_bubbles[r, c] != null && (_bubbles[r, c] is RainbowBubble || ((NormalBubble)_bubbles[r, c]).Color == color))
             {
                 connected.Add(new Vector2(c, r));
 
-                foreach (var offset in isShortRow(r) ? BubbleHelper.ShortRowOffsets : BubbleHelper.LongRowOffsets)
+                foreach (var offset in IsShortRow(r) ? BubbleHelper.ShortRowOffsets : BubbleHelper.LongRowOffsets)
                 {
                     int neighborRow = r + offset[0];
                     int neighborCol = c + offset[1];
@@ -279,7 +410,7 @@ public class BubbleManager : IComponent
             {
                 connected.Add(new Vector2(c, r));
 
-                foreach (var offset in isShortRow(r) ? BubbleHelper.ShortRowOffsets : BubbleHelper.LongRowOffsets)
+                foreach (var offset in IsShortRow(r) ? BubbleHelper.ShortRowOffsets : BubbleHelper.LongRowOffsets)
                 {
                     int neighborRow = r + offset[0];
                     int neighborCol = c + offset[1];

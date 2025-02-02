@@ -20,6 +20,15 @@ public class Window
         _target = new(Globals.GraphicsDevice, Width, Height);
     }
 
+    public void Reset()
+    {
+        if (Components == null) return;
+        for (int i = 0; i < Components.Length; i++)
+        {
+            Components[i].Reset();
+        }
+    }
+
     public void Update()
     {
         if (Components == null) return;

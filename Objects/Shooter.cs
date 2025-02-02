@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Pupple;
 using Pupple.Managers;
 using Pupple.Objects;
+using Pupple.States;
 
 public class Shooter : IComponent
 {
@@ -25,7 +26,7 @@ public class Shooter : IComponent
     private float _moveSpeed;
     private float _shootSpeed;
 
-    private Bubble[] _bubbleQueue;
+    public Bubble[] BubbleQueue { get; private set; }
 
     public Shooter(Texture2D texture,
                     Vector2 position,
@@ -48,22 +49,25 @@ public class Shooter : IComponent
         _moveSpeed = 200f;
         _shootSpeed = Globals.BubbleSpeed;
         _angle = 0f;
-        _bubbleQueue = new Bubble[Globals.BubbleQueueMaxSize + 1];
+        BubbleQueue = new Bubble[PlayerState.BubbleQueueMaxSize + 1];
         Reload();
+        // BubbleQueue[0] = new FreezeBubble(_position, Globals.BubbleTexture);
     }
     public void Update()
     {
+        if (Globals.GameState.IsDead) return;
+
         float delta = (float)Globals.Time;
         if (InputManager.IsLeftHeld)
         {
-            if (_bubbleQueue[0]?.IsMoving == false)
-                _bubbleQueue[0].Position = new Vector2(_bubbleQueue[0].Position.X - _moveSpeed * delta, _bubbleQueue[0].Position.Y);
+            if (BubbleQueue[0]?.IsMoving == false)
+                BubbleQueue[0].Position = new Vector2(BubbleQueue[0].Position.X - _moveSpeed * delta, BubbleQueue[0].Position.Y);
             _position.X -= _moveSpeed * delta;
         }
         if (InputManager.IsRightHeld)
         {
-            if (_bubbleQueue[0]?.IsMoving == false)
-                _bubbleQueue[0].Position = new Vector2(_bubbleQueue[0].Position.X + _moveSpeed * delta, _bubbleQueue[0].Position.Y);
+            if (BubbleQueue[0]?.IsMoving == false)
+                BubbleQueue[0].Position = new Vector2(BubbleQueue[0].Position.X + _moveSpeed * delta, BubbleQueue[0].Position.Y);
             _position.X += _moveSpeed * delta;
         }
 
@@ -74,11 +78,11 @@ public class Shooter : IComponent
         {
             ShootCurrentBubble();
         }
-        _bubbleQueue[0]?.Update();
+        BubbleQueue[0]?.Update();
 
-        if (_bubbleQueue[0]?.IsMoving == true)
+        if (BubbleQueue[0]?.IsMoving == true)
         {
-            Globals.BubbleManager.HandleShotBubble(_bubbleQueue[0]);
+            Globals.BubbleManager.HandleShotBubble(BubbleQueue[0]);
         }
     }
 
@@ -96,10 +100,7 @@ public class Shooter : IComponent
             0f
         );
 
-        for (int i = 0; i < Globals.Instance.CurBubbleQueueSize + 1; i++)
-        {
-            _bubbleQueue[i]?.Draw();
-        }
+        BubbleQueue[0]?.Draw();
     }
 
     private void RotateToMouse()
@@ -120,31 +121,38 @@ public class Shooter : IComponent
         return bubble;
     }
 
+    public void SwitchBubble(int index)
+    {
+        if (BubbleQueue[index] == null || BubbleQueue[0] == null || BubbleQueue[0].IsMoving) return;
+
+        Bubble temp = BubbleQueue[0];
+        BubbleQueue[0] = BubbleQueue[index];
+        BubbleQueue[index] = temp;
+    }
+
     public void Reload()
     {
-        // if (_bubbleQueue[0] != null) return;
+        BubbleQueue[0] = null;
 
-        _bubbleQueue[0] = null;
-
-        while (_bubbleQueue[0] == null)
+        while (BubbleQueue[0] == null)
         {
-            for (int i = 0; i < Globals.Instance.CurBubbleQueueSize; i++)
+            for (int i = 0; i < Globals.PlayerState.CurrentBubbleQueueSize; i++)
             {
-                _bubbleQueue[i] = _bubbleQueue[i + 1];
+                BubbleQueue[i] = BubbleQueue[i + 1];
             }
-            _bubbleQueue[Globals.Instance.CurBubbleQueueSize] = GenerateRandomBubble();
+            BubbleQueue[Globals.PlayerState.CurrentBubbleQueueSize] = GenerateRandomBubble();
         }
     }
 
     private void ShootCurrentBubble()
     {
-        if (_bubbleQueue[0] == null || _bubbleQueue[0].IsMoving) return;
+        if (BubbleQueue[0] == null || BubbleQueue[0].IsMoving) return;
 
-        _bubbleQueue[0].Velocity = new Vector2(
+        BubbleQueue[0].Velocity = new Vector2(
             (float)Math.Cos(_angle),
             (float)Math.Sin(_angle)
         ) * _shootSpeed;
-        _bubbleQueue[0].IsMoving = true;
+        BubbleQueue[0].IsMoving = true;
 
     }
 }

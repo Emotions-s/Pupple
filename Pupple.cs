@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pupple.Managers;
+using Pupple.States;
 
 namespace Pupple;
 
@@ -31,7 +32,6 @@ public class Pupple : Game
 
     protected override void LoadContent()
     {
-        // _spriteBatch = new SpriteBatch(GraphicsDevice);
         Globals.Content = Content;
         Globals.GraphicsDevice = GraphicsDevice;
         Globals.SpriteBatch = new SpriteBatch(GraphicsDevice);
@@ -40,8 +40,11 @@ public class Pupple : Game
         pixel.SetData([Color.White]);
 
         Globals.BubbleTexture = Content.Load<Texture2D>("objects/Balls");
+        Globals.Font = Content.Load<SpriteFont>("fonts/gameFont");
 
         Globals.Pixel = pixel;
+        Globals.GameState = new GameState();
+        Globals.PlayerState = new PlayerState();
         _gameManager = new();
     }
 

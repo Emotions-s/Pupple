@@ -1,9 +1,9 @@
 using System;
-using System.Net.NetworkInformation;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Pupple.Managers;
+using Pupple.States;
 
 namespace Pupple;
 
@@ -14,7 +14,6 @@ class Globals
     public const int GridSize = 60;
     public const float BubbleRadius = 28f;
     public const float BubblePadding = 2f;
-    public const int BubbleQueueMaxSize = 4;
     public const float BubbleSpeed = 20f;
     public static SpriteBatch SpriteBatch { get; set; }
     public static ContentManager Content { get; set; }
@@ -22,17 +21,17 @@ class Globals
     public static BubbleManager BubbleManager { get; set; }
     public static Shooter Shooter { get; set; }
     public static Texture2D Pixel { get; set; }
-
     public static Texture2D BubbleTexture { get; set; }
-
+    public static SpriteFont Font { get; set; }
+    public static GameState GameState { get; set; }
+    public static PlayerState PlayerState { get; set; }
     public static float Time { get; private set; }
 
-    public int Coin = 0;
+    public static Color BlueColor = new Color(84, 161, 185);
 
-    public int Level = 1;
+    public static Color DarkBlueColor = new Color(44, 120, 143);
 
-    public int CurBubbleQueueSize = 0;
-    public int IgnorePercent = 50;
+    public static Color DarkerBlueColor = new Color(40, 71, 81);
 
     public readonly Random random = new Random();
     private Globals()

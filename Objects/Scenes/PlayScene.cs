@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pupple.Managers;
@@ -20,9 +21,19 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
     protected override void Load()
     {
         // left window
-        Window leftWindow = new(SideBarWidth, Globals.ScreenH, new(LeftBarOffset, 0), new Color(84, 161, 185))
-        {
+        LevelBox levelBox = new(Globals.GridSize * 6, Globals.GridSize * 1, new Vector2(0, Globals.GridSize * 1), null, Globals.DarkerBlueColor, Color.White);
 
+        ExtraLifeBox extraLifeBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 3), "Extra Life", Color.White, Globals.DarkBlueColor, Globals.BubbleTexture, BubbleHelper.NormalBubbleViewPort[BubbleColor.Green], BubbleHelper.NormalBubbleViewPort[BubbleColor.Red]);
+
+        MissCountBox missCountBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 7), "Miss Count", Globals.DarkBlueColor, Color.White, Globals.BubbleTexture, BubbleHelper.NormalBubbleViewPort[BubbleColor.Red], BubbleHelper.NormalBubbleViewPort[BubbleColor.White]);
+
+        Window leftWindow = new(SideBarWidth, Globals.ScreenH, new(LeftBarOffset, 0), Globals.BlueColor)
+        {
+            Components = [
+                levelBox,
+                extraLifeBox,
+                missCountBox
+            ],
         };
 
         // game window
@@ -33,7 +44,7 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
             new Vector2(360, 0)
         );
 
-        Window gameWindow = new(GameWindowWidth, Globals.ScreenH, new(GameWindowOffset, 0), new Color(44, 120, 143))
+        Window gameWindow = new(GameWindowWidth, Globals.ScreenH, new(GameWindowOffset, 0), Globals.DarkBlueColor)
         {
             Components = [
                 Globals.BubbleManager,
@@ -42,9 +53,15 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
         };
 
         // right window
-        Window rightWindow = new(SideBarWidth, Globals.ScreenH, new(RightBarOffset, 0), new Color(84, 161, 185))
-        {
+        TextBox textBox = new(Globals.GridSize * 6, Globals.GridSize * 1, new Vector2(0, Globals.GridSize * 1), "Special Ball", Globals.DarkerBlueColor, Color.White);
+        QueueBox queueBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 15), "Queue", Globals.DarkerBlueColor, Color.White, Globals.BubbleTexture);
 
+        Window rightWindow = new(SideBarWidth, Globals.ScreenH, new(RightBarOffset, 0), Globals.BlueColor)
+        {
+            Components = [
+                textBox,
+                queueBox
+            ],
         };
 
         _windows = [
@@ -56,7 +73,15 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
     }
     public override void Activate()
     {
-        
+        if (Globals.GameState.IsDead)
+        {
+            Globals.GameState.Reset();
+            Globals.PlayerState.Reset();
+            for (int i = 0; i < _windows.Length; i++)
+            {
+                _windows[i].Reset();
+            }
+        }
     }
 
     public override void Update()
@@ -64,6 +89,11 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
         for (int i = 0; i < _windows.Length; i++)
         {
             _windows[i].Update();
+        }
+        Globals.GameState.FreezeTime -= (float)Globals.Time;
+        if (Globals.GameState.FreezeTime <= 0)
+        {
+            Globals.GameState.FreezeTime = 0;
         }
     }
 
