@@ -18,6 +18,8 @@ public class BubbleManager : IComponent
     public readonly float _rowHeight;
     private Bubble[,] _bubbles;
     private bool _isNextRowShort = false;
+    private bool _isClusterPopping = false;
+
     public BubbleManager(int maxRows, int maxColumns)
     {
         _maxRows = maxRows;
@@ -48,6 +50,39 @@ public class BubbleManager : IComponent
 
     public void Update()
     {
+        bool isAnyBubblePopping = false; // Track if any cluster bubbles are still shrinking
+
+        for (int row = 0; row < _maxRows; row++)
+        {
+            for (int col = 0; col < _maxColumns; col++)
+            {
+                if (_bubbles[row, col] != null)
+                {
+                    _bubbles[row, col].Update();
+
+                    if (_bubbles[row, col].IsPopping) 
+                    {
+                        isAnyBubblePopping = true; // If any bubble is shrinking, we wait
+                    }
+                    // Remove the bubble only after animation completes
+                    if (_bubbles[row, col].IsPopping && !_bubbles[row, col].IsActive)
+                    {
+                        _bubbles[row, col] = null;
+                    }
+                    // Remove floating bubbles after they fall off the screen
+                    if (_bubbles[row, col]?.IsFloating == true && !_bubbles[row, col].IsActive)
+                    {
+                        _bubbles[row, col] = null;
+                    }
+                }
+            }
+        }
+         // If no bubbles are popping anymore, remove floating bubbles
+        if (_isClusterPopping && !isAnyBubblePopping)
+        {
+            _isClusterPopping = false; // Reset flag
+            RemoveFloatingBubbles(); // Now remove floating bubbles
+        }
         CheckLost();
     }
 
@@ -264,9 +299,17 @@ public class BubbleManager : IComponent
             Globals.GameState.MissCount = 0;
         }
 
+        // Reset miss count if bubbles were destroyed
+        Globals.GameState.MissCount = 0;
+        _isClusterPopping = true; // Mark that a cluster is popping
+
         foreach (Vector2 pos in bubblesToDestroy)
         {
-            _bubbles[(int)pos.Y, (int)pos.X] = null;
+            Bubble bubble = _bubbles[(int)pos.Y, (int)pos.X];
+            if (bubble != null)
+            {
+                bubble.StartPop(); // Start shrinking animation
+            }
         }
 
     }
@@ -443,7 +486,8 @@ public class BubbleManager : IComponent
             {
                 if (_bubbles[row, col] != null && !connectedToTop.Contains(new Vector2(col, row)))
                 {
-                    _bubbles[row, col] = null;
+                    // _bubbles[row, col] = null;
+                    _bubbles[row, col].StartFloating(); // Make it float up and fall
                 }
             }
         }
