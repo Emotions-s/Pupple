@@ -23,9 +23,9 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
         // left window
         LevelBox levelBox = new(Globals.GridSize * 6, Globals.GridSize * 1, new Vector2(0, Globals.GridSize * 1), null, Globals.DarkerBlueColor, Color.White);
 
-        ExtraLifeBox extraLifeBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 3), "Extra Life", Color.White, Globals.DarkBlueColor, Globals.BubbleTexture, BubbleHelper.NormalBubbleViewPort[BubbleColor.Green], BubbleHelper.NormalBubbleViewPort[BubbleColor.Red]);
+        ExtraLifeBox extraLifeBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 3), "Extra Life", Color.White, Globals.DarkBlueColor, Globals.ShooterSceneSheet, BubbleHelper.NormalBubbleViewPort[BubbleColor.Green], BubbleHelper.NormalBubbleViewPort[BubbleColor.Red]);
 
-        MissCountBox missCountBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 7), "Miss Count", Globals.DarkBlueColor, Color.White, Globals.BubbleTexture, BubbleHelper.NormalBubbleViewPort[BubbleColor.Red], BubbleHelper.NormalBubbleViewPort[BubbleColor.White]);
+        MissCountBox missCountBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 7), "Miss Count", Globals.DarkBlueColor, Color.White, Globals.ShooterSceneSheet, BubbleHelper.NormalBubbleViewPort[BubbleColor.Red], BubbleHelper.NormalBubbleViewPort[BubbleColor.White]);
 
         Window leftWindow = new(SideBarWidth, Globals.ScreenH, new(LeftBarOffset, 0), Globals.BlueColor)
         {
@@ -38,8 +38,9 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
 
         // game window
         Globals.BubbleManager = new BubbleManager(17, 20);
-        Texture2D shooterTex = Globals.Content.Load<Texture2D>("objects/Shooter");
-        Globals.Shooter = new(shooterTex,
+        // Texture2D shooterTex = Globals.Content.Load<Texture2D>("objects/Shooter");
+        Globals.Shooter = new(
+            Globals.ShooterSceneSheet,
             new(1200 / 2, 1000),
             new Vector2(360, 0)
         );
@@ -54,7 +55,7 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
 
         // right window
         TextBox textBox = new(Globals.GridSize * 6, Globals.GridSize * 1, new Vector2(0, Globals.GridSize * 1), "Special Ball", Globals.DarkerBlueColor, Color.White);
-        QueueBox queueBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 15), "Queue", Globals.DarkerBlueColor, Color.White, Globals.BubbleTexture);
+        QueueBox queueBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 15), "Queue", Globals.DarkerBlueColor, Color.White, Globals.ShooterSceneSheet);
 
         Window rightWindow = new(SideBarWidth, Globals.ScreenH, new(RightBarOffset, 0), Globals.BlueColor)
         {

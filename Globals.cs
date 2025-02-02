@@ -21,7 +21,7 @@ class Globals
     public static BubbleManager BubbleManager { get; set; }
     public static Shooter Shooter { get; set; }
     public static Texture2D Pixel { get; set; }
-    public static Texture2D BubbleTexture { get; set; }
+    public static Texture2D ShooterSceneSheet { get; set; }
     public static SpriteFont Font { get; set; }
     public static GameState GameState { get; set; }
     public static PlayerState PlayerState { get; set; }

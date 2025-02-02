@@ -203,7 +203,7 @@ public class BubbleManager : IComponent
         if (col < 0 || col >= _maxColumns) return; // ? Should we throw an exception here?
 
         Vector2 position = CalculatePosition(row, col, _isNextRowShort);
-        _bubbles[row, col] = new NormalBubble(position, Globals.BubbleTexture, color);
+        _bubbles[row, col] = new NormalBubble(position, Globals.ShooterSceneSheet, color);
     }
 
     private BubbleColor PickRandomColor()

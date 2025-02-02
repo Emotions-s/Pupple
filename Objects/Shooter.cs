@@ -17,6 +17,8 @@ public class Shooter : IComponent
 
     private Vector2 _windowOrigin;
 
+    private Rectangle _viewport;
+
     private float _angle;
     private readonly float _minAngle;
     private readonly float _maxAngle;
@@ -38,7 +40,9 @@ public class Shooter : IComponent
 
         _minAngle = -MathHelper.Pi + 0.0001f;
         _maxAngle = 0 - 0.0001f;
-        _origin = new Vector2(_texture.Width / 2f, _texture.Height / 2f);
+
+        _viewport = new Rectangle(0, 360, 156, 156);
+        _origin = new Vector2(_viewport.Width / 2f, _viewport.Height / 2f);
 
         Reset();
     }
@@ -91,7 +95,7 @@ public class Shooter : IComponent
         Globals.SpriteBatch.Draw(
             _texture,
             _position,
-            null,
+            _viewport,
             Color.White,
             _angle,
             _origin,
@@ -117,7 +121,7 @@ public class Shooter : IComponent
     private Bubble GenerateRandomBubble()
     {
         BubbleColor randomColor = Common.GetRandomElement(BubbleHelper.BubbleColorsLv1);
-        Bubble bubble = new NormalBubble(_position, Globals.BubbleTexture, randomColor);
+        Bubble bubble = new NormalBubble(_position, Globals.ShooterSceneSheet, randomColor);
         return bubble;
     }
 

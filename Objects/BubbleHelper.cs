@@ -57,13 +57,13 @@ public static class BubbleHelper
     public static readonly SortedDictionary<BubbleColor, Rectangle> NormalBubbleViewPort = new SortedDictionary<BubbleColor, Rectangle>
     {
         {BubbleColor.Green, new Rectangle(0, 0, 60, 60)},
-        {BubbleColor.White, new Rectangle(0, 60, 60, 60)},
-        {BubbleColor.Pink, new Rectangle(0, 120, 60, 60)},
-        {BubbleColor.Red, new Rectangle(0, 180, 60, 60)},
-        {BubbleColor.Yellow, new Rectangle(0, 240, 60, 60)},
-        {BubbleColor.Blue, new Rectangle(0, 300, 60, 60)},
-        {BubbleColor.Purple, new Rectangle(0, 360, 60, 60)},
-        {BubbleColor.Orange, new Rectangle(0, 420, 60, 60)},
+        {BubbleColor.Orange, new Rectangle(120, 0, 60, 60)},
+        {BubbleColor.Pink, new Rectangle(240, 0, 60, 60)},
+        {BubbleColor.Red, new Rectangle(360, 0, 60, 60)},
+        {BubbleColor.Yellow, new Rectangle(480, 0, 60, 60)},
+        {BubbleColor.White, new Rectangle(600, 0, 60, 60)},
+        {BubbleColor.Blue, new Rectangle(720, 0, 60, 60)},
+        {BubbleColor.Purple, new Rectangle(840, 0, 60, 60)},
     };
 
     public static readonly SortedDictionary<BubbleSpecial, Rectangle> SpecialBubbleViewPort = new SortedDictionary<BubbleSpecial, Rectangle>
