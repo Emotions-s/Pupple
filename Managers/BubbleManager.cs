@@ -83,9 +83,13 @@ public class BubbleManager : IComponent
                     {
                         isAnyBubblePopping = true; // If any bubble is shrinking, we wait
                     }
-
                     // Remove the bubble only after animation completes
                     if (_bubbles[row, col].IsPopping && !_bubbles[row, col].IsActive)
+                    {
+                        _bubbles[row, col] = null;
+                    }
+                    // Remove floating bubbles after they fall off the screen
+                    if (_bubbles[row, col]?.IsFloating == true && !_bubbles[row, col].IsActive)
                     {
                         _bubbles[row, col] = null;
                     }
@@ -362,13 +366,25 @@ public class BubbleManager : IComponent
         }
 
         // Remove floating bubbles immediately
+        // for (int row = 1; row < _maxRows; row++)
+        // {
+        //     for (int col = 0; col < _maxColumns; col++)
+        //     {
+        //         if (_bubbles[row, col] != null && !connectedToTop.Contains(new Vector2(col, row)))
+        //         {
+        //             _bubbles[row, col] = null; // Directly remove floating bubbles
+        //         }
+        //     }
+        // }
+
+         // Make floating bubbles lift up and fall instead of deleting immediately
         for (int row = 1; row < _maxRows; row++)
         {
             for (int col = 0; col < _maxColumns; col++)
             {
                 if (_bubbles[row, col] != null && !connectedToTop.Contains(new Vector2(col, row)))
                 {
-                    _bubbles[row, col] = null; // Directly remove floating bubbles
+                    _bubbles[row, col].StartFloating(); // Make it float up and fall
                 }
             }
         }

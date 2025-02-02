@@ -22,6 +22,13 @@ public abstract class Bubble : IComponent
     private float _scale = 1f;
     private const float PopAnimationSpeed = 3f;
 
+    // Floating behavior
+    public bool IsFloating { get; private set; } = false;
+    private float floatSpeed = -50f; // Moves up first
+    private float fallSpeed = 3000f;  // Falls down after delay
+    private float floatTime = 0.3f;  // Time before falling
+    private float elapsedTime = 0f; 
+
     public Bubble(Vector2 pos, Texture2D texture)
     {
         Position = pos;
@@ -58,7 +65,25 @@ public abstract class Bubble : IComponent
             _scale -= PopAnimationSpeed * (float)Globals.Time;
             if (_scale <= 0)
             {
-                IsActive = false; // Bubble disappears after shrinking
+                _scale = 0;
+                IsActive = false; // Mark the bubble as inactive
+            }
+        }
+        else if (IsFloating)
+        {
+            elapsedTime += (float)Globals.Time;
+            
+            if (elapsedTime < floatTime)
+            {
+                Position += new Vector2(0, floatSpeed * (float)Globals.Time); // Move up
+            }
+            else
+            {
+                Position += new Vector2(0, fallSpeed * (float)Globals.Time); // Fall down
+                if (Position.Y > Globals.GameWindowHeight + Globals.BubbleRadius)
+                {
+                    IsActive = false; // Remove bubble when it falls off the screen
+                }
             }
         }
         else
@@ -77,6 +102,12 @@ public abstract class Bubble : IComponent
     public void StartPop()
     {
         IsPopping = true;
+    }
+
+    public void StartFloating()
+    {
+        IsFloating = true;
+        elapsedTime = 0f;  // Reset time counter
     }
 
     public void Draw()

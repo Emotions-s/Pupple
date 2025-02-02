@@ -11,6 +11,7 @@ class Globals
 {
     public const int ScreenW = 1920;
     public const int ScreenH = 1080;
+    public static int GameWindowHeight = 1080;
     public const int GridSize = 60;
     public const float BubbleRadius = 28f;
     public const float BubblePadding = 2f;
