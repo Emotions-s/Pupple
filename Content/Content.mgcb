@@ -44,6 +44,18 @@
 /processorParam:TextureFormat=Color
 /build:objects/Bubble.png
 
+#begin objects/CardSheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:objects/CardSheet.png
+
 #begin objects/Shooter.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -55,4 +67,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:objects/Shooter.png
+
+#begin objects/ShooterSceneSheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:objects/ShooterSceneSheet.png
 

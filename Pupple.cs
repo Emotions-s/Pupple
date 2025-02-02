@@ -40,7 +40,8 @@ public class Pupple : Game
         Texture2D pixel = new Texture2D(GraphicsDevice, 1, 1);
         pixel.SetData([Color.White]);
 
-        Globals.BubbleTexture = Content.Load<Texture2D>("objects/Balls");
+        Globals.ShooterSceneSheet = Content.Load<Texture2D>("objects/ShooterSceneSheet");
+        Globals.CardSheet = Content.Load<Texture2D>("objects/CardSheet");
         Globals.Font = Content.Load<SpriteFont>("fonts/gameFont");
 
         Globals.Pixel = pixel;

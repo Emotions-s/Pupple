@@ -2,10 +2,16 @@ namespace Pupple.States;
 
 public class GameState
 {
+    public enum State
+    {
+        Playing,
+        Shop,
+        GameOver,
+    }
     public const int MaxMissCount = 4;
     public int Level;
     public int IgnorePercent;
-    public bool IsDead;
+    public State CurrentState;
     public int CurrentLineStart;
     public int MissCount;
 
@@ -20,8 +26,8 @@ public class GameState
     {
         Level = 1;
         IgnorePercent = 50;
-        IsDead = false;
-        CurrentLineStart = 2;
+        CurrentState = State.Playing;
+        CurrentLineStart = 15;
         MissCount = 0;
     }
 }

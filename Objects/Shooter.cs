@@ -17,6 +17,8 @@ public class Shooter : IComponent
 
     private Vector2 _windowOrigin;
 
+    private Rectangle _viewport;
+
     private float _angle;
     private readonly float _minAngle;
     private readonly float _maxAngle;
@@ -38,7 +40,9 @@ public class Shooter : IComponent
 
         _minAngle = -MathHelper.Pi + 0.0001f;
         _maxAngle = 0 - 0.0001f;
-        _origin = new Vector2(_texture.Width / 2f, _texture.Height / 2f);
+
+        _viewport = new Rectangle(0, 360, 156, 156);
+        _origin = new Vector2(_viewport.Width / 2f, _viewport.Height / 2f);
 
         Reset();
     }
@@ -49,12 +53,12 @@ public class Shooter : IComponent
         _moveSpeed = 200f;
         _shootSpeed = Globals.BubbleSpeed;
         _angle = 0f;
-        BubbleQueue = new Bubble[PlayerState.BubbleQueueMaxSize + 1];
+        BubbleQueue = new Bubble[PlayerState.MaxBubbleQueueSize + 1];
         Reload();
     }
     public void Update()
     {
-        if (Globals.GameState.IsDead) return;
+        if (Globals.GameState.CurrentState != GameState.State.Playing) return;
 
         float delta = (float)Globals.Time;
         if (InputManager.IsLeftHeld)
@@ -91,7 +95,7 @@ public class Shooter : IComponent
         Globals.SpriteBatch.Draw(
             _texture,
             _position,
-            null,
+            _viewport,
             Color.White,
             _angle,
             _origin,
@@ -117,7 +121,7 @@ public class Shooter : IComponent
     private Bubble GenerateRandomBubble()
     {
         BubbleColor randomColor = Common.GetRandomElement(BubbleHelper.BubbleColorsLv1);
-        Bubble bubble = new NormalBubble(_position, Globals.BubbleTexture, randomColor);
+        Bubble bubble = new NormalBubble(_position, Globals.ShooterSceneSheet, randomColor);
         return bubble;
     }
 
@@ -128,6 +132,14 @@ public class Shooter : IComponent
         Bubble temp = BubbleQueue[0];
         BubbleQueue[0] = BubbleQueue[index];
         BubbleQueue[index] = temp;
+    }
+
+    public void ChangeBubble(int index, Bubble bubble)
+    {
+        if (BubbleQueue[index] == null || BubbleQueue[0] == null || BubbleQueue[0].IsMoving) return;
+
+        bubble.Position = _position;
+        BubbleQueue[index] = bubble;
     }
 
     public void Reload()

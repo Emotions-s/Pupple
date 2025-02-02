@@ -92,7 +92,7 @@ public class BubbleManager : IComponent
         {
             if (_bubbles[_maxRows - 1, col] != null)
             {
-                Globals.GameState.IsDead = true;
+                Globals.GameState.CurrentState = GameState.State.GameOver;
                 return;
             }
         }
@@ -181,7 +181,7 @@ public class BubbleManager : IComponent
 
     private BubbleColor PickColorBasedOnNeighbors(int row, int col, bool isShortRow)
     {
-        Random random = Globals.Instance.random;
+        Random random = Globals.Instance.Random;
         bool ignoreNeighbors = random.Next(0, 100) < 50;
 
         if (!ignoreNeighbors)
@@ -238,7 +238,7 @@ public class BubbleManager : IComponent
         if (col < 0 || col >= _maxColumns) return; // ? Should we throw an exception here?
 
         Vector2 position = CalculatePosition(row, col, _isNextRowShort);
-        _bubbles[row, col] = new NormalBubble(position, Globals.BubbleTexture, color);
+        _bubbles[row, col] = new NormalBubble(position, Globals.ShooterSceneSheet, color);
     }
 
     private BubbleColor PickRandomColor()

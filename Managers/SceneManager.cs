@@ -14,13 +14,13 @@ public class SceneManager
         _scenes.Add(ScenesType.PlayScene, new PlayScene(gameManager));
 
         ActiveScene = ScenesType.PlayScene;
-        _scenes[ActiveScene].Activate();
+        _scenes[ActiveScene].Reset();
     }
 
-    public void SwitchScene(ScenesType scene)
+    public void ResetScene(ScenesType scene)
     {
         ActiveScene = scene;
-        _scenes[ActiveScene].Activate();
+        _scenes[ActiveScene].Reset();
     }
 
     public void Update()

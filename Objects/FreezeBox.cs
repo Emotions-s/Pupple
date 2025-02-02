@@ -7,12 +7,11 @@ using Pupple.States;
 
 namespace Pupple.Objects;
 
-public class QueueBox : Box
+public class FreezeBox : Box
 {
     Texture2D Texture { get; set; }
-
     private int _activeIndex;
-    public QueueBox(int width, int height, Vector2 originPos, string header, Color bgColor, Color fontColor, Texture2D texture) : base(width, height, originPos, header, bgColor, fontColor)
+    public FreezeBox(int width, int height, Vector2 originPos, string header, Color bgColor, Color fontColor, Texture2D texture) : base(width, height, originPos, header, bgColor, fontColor)
     {
         Texture = texture;
         _activeIndex = 0;
@@ -30,7 +29,8 @@ public class QueueBox : Box
                 _activeIndex = indexX;
                 if (InputManager.Clicked)
                 {
-                    Globals.Shooter.SwitchBubble(_activeIndex);
+                    Globals.Shooter.ChangeBubble(0, new FreezeBubble(Vector2.Zero, Texture));
+                    Globals.PlayerState.FreezeNum--;
                 }
             }
         }
@@ -52,10 +52,21 @@ public class QueueBox : Box
         var textSize = Globals.Font.MeasureString(Header);
         Globals.SpriteBatch.DrawString(Globals.Font, Header, OriginPos + new Vector2((Width - textSize.X) / 2, (Globals.GridSize - textSize.Y) / 2), FontColor);
 
-        for (var i = 1; i <= PlayerState.MaxBubbleQueueSize; i++)
+        for (var i = 1; i <= Globals.PlayerState.FreezeNum; i++)
         {
-            var vp = Globals.Shooter.BubbleQueue[i] == null ? BubbleHelper.LockSwapViewPort : BubbleHelper.SwapNormalBubbleViewPort[((NormalBubble)Globals.Shooter.BubbleQueue[i]).Color];
-            Globals.SpriteBatch.Draw(Texture, OriginPos + new Vector2(Globals.GridSize * i, Globals.GridSize * 2 - vp.Height), vp, _activeIndex == i ? Color.Gray : Color.White);
+            var vp = BubbleHelper.SpecialBubbleViewPort[BubbleSpecial.Freeze];
+                        var middleOffset = new Vector2(vp.Width / 2, vp.Height / 2);
+            Globals.SpriteBatch.Draw(Texture,
+                OriginPos + new Vector2(Globals.GridSize * i,
+                Globals.GridSize * 2 - vp.Height) + middleOffset,
+                vp,
+                _activeIndex == i ? Color.Gray : Color.White,
+                0f,
+                middleOffset,
+                0.75f,
+                SpriteEffects.None,
+                0f
+            );
         }
     }
 }
