@@ -89,7 +89,7 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
 
     public override void Update()
     {
-        // Debug
+        // Debug tools
         if (InputManager.KeyPressed(Keys.F1))
         {
             Globals.BubbleManager.ClearAllBubble();
