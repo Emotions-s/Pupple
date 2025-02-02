@@ -3,8 +3,9 @@ namespace Pupple.States;
 public class PlayerState
 {
     public const int MaxBubbleQueueSize = 4;
-
     public const int MaxSpecialBubbleNum = 4;
+    public const int MaxShooterRangeLv = 4;
+    public const int MaxAimRangeLv = 4;
     public int CurrentBubbleQueueSize;
     public int ShooterRangeLv;
     public float AimRangeLv;
@@ -23,7 +24,7 @@ public class PlayerState
 
     public void Reset()
     {
-        CurrentBubbleQueueSize = 3;
+        CurrentBubbleQueueSize = 0;
         ShooterRangeLv = 0;
         AimRangeLv = 0;
         HaveShields = true;
