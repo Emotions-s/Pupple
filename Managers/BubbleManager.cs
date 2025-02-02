@@ -138,6 +138,7 @@ public class BubbleManager : IComponent
                 _bubbles[row, col]?.Draw();
             }
         }
+        Globals.SpriteBatch.Draw(Globals.Pixel, new Rectangle(0, _maxRows * (int)_rowHeight, Globals.ScreenW, Globals.ScreenH), Color.Red * 0.5f);
     }
 
     public void HandleShotBubble(Bubble shotBubble)

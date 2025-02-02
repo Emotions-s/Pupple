@@ -25,7 +25,7 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
         // left window
         LevelBox levelBox = new(Globals.GridSize * 6, Globals.GridSize * 1, new Vector2(0, Globals.GridSize * 1), null, Globals.DarkerBlueColor, Color.White);
         ExtraLifeBox extraLifeBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 3), "Extra Life", Color.White, Globals.DarkBlueColor, Globals.ShooterSceneSheet, BubbleHelper.ActiveShieldViewPort, BubbleHelper.InactiveShieldViewPort);
-        MissCountBox missCountBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 7), "Miss Count", Globals.DarkerBlueColor, Color.White, Globals.ShooterSceneSheet, BubbleHelper.NormalBubbleViewPort[BubbleColor.Red], BubbleHelper.NormalBubbleViewPort[BubbleColor.White]);
+        MissCountBox missCountBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 7), "Miss Count", Globals.DarkerBlueColor, Color.White, Globals.ShooterSceneSheet, BubbleHelper.ActiveMissViewPort, BubbleHelper.InactiveMissViewPort);
 
         Window leftWindow = new(SideBarWidth, Globals.ScreenH, new(LeftBarOffset, 0), Globals.BlueColor)
         {

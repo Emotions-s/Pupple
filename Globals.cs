@@ -16,7 +16,6 @@ class Globals
     public const float BubbleRadius = 28f;
     public const float BubblePadding = 2f;
     public static int GameWindowHeight = 1080;
-
     public const float BubbleSpeed = 1000f;
     public static SpriteBatch SpriteBatch { get; set; }
     public static ContentManager Content { get; set; }
@@ -30,7 +29,6 @@ class Globals
     public static GameState GameState { get; set; }
     public static PlayerState PlayerState { get; set; }
     public static float Time { get; private set; }
-
     public static Color BlueColor = new Color(84, 161, 185);
 
     public static Color DarkBlueColor = new Color(44, 120, 143);
