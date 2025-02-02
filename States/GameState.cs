@@ -59,7 +59,8 @@ public class GameState
 
     public void LevelUp()
     {
-        Level++;
+       Globals.WinSound.Play();
+       Level++;
 
         // add new color every 10 levels
         if (Level % AddColorRound == 0)
