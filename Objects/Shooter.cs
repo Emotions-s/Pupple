@@ -38,8 +38,8 @@ public class Shooter : IComponent
         __positionOrigin = position;
         _windowOrigin = windowOrigin;
 
-        _minAngle = -MathHelper.Pi + 0.0001f;
-        _maxAngle = 0 - 0.0001f;
+        _minAngle = -MathHelper.Pi + 0.3f;
+        _maxAngle = -0.3f;
 
         _viewport = new Rectangle(0, 360, 156, 156);
         _origin = new Vector2(_viewport.Width / 2f, _viewport.Height / 2f);
@@ -114,7 +114,15 @@ public class Shooter : IComponent
         Vector2 direction = mousePos - globalShooterPos;
 
         float desiredAngle = (float)Math.Atan2(direction.Y, direction.X);
-        _angle = MathHelper.Clamp(desiredAngle, _minAngle, _maxAngle);
+        if (desiredAngle > _maxAngle && desiredAngle < MathHelper.PiOver2)
+        {
+            desiredAngle = _maxAngle; ;
+        }
+        else if (desiredAngle < _minAngle || desiredAngle > MathHelper.PiOver2)
+        {
+            desiredAngle = _minAngle;
+        }
+        _angle = desiredAngle;
     }
 
 
