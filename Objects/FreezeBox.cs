@@ -55,7 +55,18 @@ public class FreezeBox : Box
         for (var i = 1; i <= Globals.PlayerState.FreezeNum; i++)
         {
             var vp = BubbleHelper.SpecialBubbleViewPort[BubbleSpecial.Freeze];
-            Globals.SpriteBatch.Draw(Texture, OriginPos + new Vector2(Globals.GridSize * i, Globals.GridSize * 2 - vp.Height), vp, _activeIndex == i ? Color.Gray : Color.White);
+                        var middleOffset = new Vector2(vp.Width / 2, vp.Height / 2);
+            Globals.SpriteBatch.Draw(Texture,
+                OriginPos + new Vector2(Globals.GridSize * i,
+                Globals.GridSize * 2 - vp.Height) + middleOffset,
+                vp,
+                _activeIndex == i ? Color.Gray : Color.White,
+                0f,
+                middleOffset,
+                0.75f,
+                SpriteEffects.None,
+                0f
+            );
         }
     }
 }

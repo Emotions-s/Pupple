@@ -31,7 +31,7 @@ public class PlayerState
         HaveShields = false;
 
         BombNum = 1;
-        FreezeNum = 1;
-        RainbowNum = 1;
+        FreezeNum = 2;
+        RainbowNum = 4;
     }
 }
