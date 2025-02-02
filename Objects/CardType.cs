@@ -7,13 +7,7 @@ public enum CardType
     Bomb,
     Freeze,
     Rainbow,
-    GreenS,
-    WhiteS,
-    PinkS,
-    RedS,
-    YellowS,
-    BlueS,
-    PurpleS,
-    OrangeS,
+    SpecialColor,
+
     Shield
 }

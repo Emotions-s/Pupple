@@ -18,23 +18,6 @@ public static class BubbleHelper
         BubbleColor.Orange
     };
 
-    public static readonly List<BubbleColor> BubbleColorsLv1 = new List<BubbleColor>
-    {
-        BubbleColor.Pink,
-        BubbleColor.Yellow,
-        BubbleColor.Green,
-        BubbleColor.Blue,
-    };
-
-    public static readonly List<BubbleColor> BubbleColorsLv2 = new List<BubbleColor>
-    {
-        BubbleColor.Green,
-        BubbleColor.White,
-        BubbleColor.Pink,
-        BubbleColor.Red,
-        BubbleColor.Yellow,
-    };
-
     public static int[][] LongRowOffsets =
         [
                 [-1,  0],

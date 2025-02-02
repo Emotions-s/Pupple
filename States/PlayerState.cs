@@ -26,7 +26,7 @@ public class PlayerState
         CurrentBubbleQueueSize = 3;
         ShooterRangeLv = 0;
         AimRangeLv = 0;
-        HaveShields = false;
+        HaveShields = true;
 
         BombNum = 1;
         FreezeNum = 2;

@@ -34,7 +34,7 @@ public class MissCountBox : Box
         var textSize = Globals.Font.MeasureString(Header);
         Globals.SpriteBatch.DrawString(Globals.Font, Header, OriginPos + new Vector2((Width - textSize.X) / 2, (Globals.GridSize - textSize.Y) / 2), FontColor);
 
-        for (int i = 0; i < GameState.MaxMissCount; i++)
+        for (int i = 0; i < Globals.GameState.MaxMissCount; i++)
         {
             var vp = i < Globals.GameState.MissCount ?  ActiveViewport : NonActiveViewport;
             Globals.SpriteBatch.Draw(Texture, OriginPos + new Vector2(Globals.GridSize * (i + 1), Globals.GridSize * 2 - vp.Height), vp, Color.White);

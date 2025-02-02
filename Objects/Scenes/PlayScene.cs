@@ -89,6 +89,18 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
 
     public override void Update()
     {
+        // Debug
+        if (InputManager.KeyPressed(Keys.F1))
+        {
+            Globals.BubbleManager.ClearAllBubble();
+            return;
+        }
+        if (InputManager.KeyPressed(Keys.F2))
+        {
+            Globals.BubbleManager.AddNewTopLine();
+            return;
+        }
+
         if (Globals.GameState.CurrentState == GameState.State.GameOver)
         {
             if (InputManager.KeyPressed(Keys.Space))
@@ -97,6 +109,14 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
             }
             return;
         }
+        if (Globals.BubbleManager.IsPassTheStage())
+        {
+            Globals.GameState.LevelUp();
+            Globals.BubbleManager.Reset();
+            Globals.Shooter.Reset();
+            return;
+        }
+
         for (int i = 0; i < _windows.Length; i++)
         {
             _windows[i].Update();

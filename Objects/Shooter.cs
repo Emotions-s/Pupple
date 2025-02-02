@@ -120,7 +120,7 @@ public class Shooter : IComponent
 
     private Bubble GenerateRandomBubble()
     {
-        BubbleColor randomColor = Common.GetRandomElement(BubbleHelper.BubbleColorsLv1);
+        BubbleColor randomColor = Common.GetRandomElement(Globals.GameState.BubbleColorsInGame);
         Bubble bubble = new NormalBubble(_position, Globals.ShooterSceneSheet, randomColor);
         return bubble;
     }

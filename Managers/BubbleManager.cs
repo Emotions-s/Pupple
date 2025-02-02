@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Threading;
 using Microsoft.Xna.Framework;
 using Pupple.Objects;
 using Pupple.States;
@@ -40,7 +38,7 @@ public class BubbleManager : IComponent
     public void Reset()
     {
         _bubbles = new Bubble[_maxRows, _maxColumns];
-        for (int i = 0; i < Globals.GameState.CurrentLineStart; i++)
+        for (int i = 0; i < Globals.GameState.StartLine; i++)
         {
             AddNewTopLine();
         }
@@ -51,15 +49,47 @@ public class BubbleManager : IComponent
         CheckLost();
     }
 
+    public bool IsPassTheStage()
+    {
+        for (int row = 0; row < _maxRows; row++)
+        {
+            for (int col = 0; col < _maxColumns; col++)
+            {
+                if (_bubbles[row, col] != null)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     private void CheckLost()
     {
         for (int col = 0; col < _maxColumns; col++)
         {
             if (_bubbles[_maxRows - 1, col] != null)
             {
+                if (Globals.PlayerState.HaveShields)
+                {
+                    Globals.PlayerState.HaveShields = false;
+                    for (int i = 0; i <3; i++)
+                    {
+                        ClearRow(_maxRows - i - 1);
+                    }
+                    return;
+                }
                 Globals.GameState.CurrentState = GameState.State.GameOver;
                 return;
             }
+        }
+    }
+
+    private void ClearRow(int row)
+    {
+        for (int col = 0; col < _maxColumns; col++)
+        {
+            _bubbles[row, col] = null;
         }
     }
 
@@ -208,7 +238,7 @@ public class BubbleManager : IComponent
 
     private BubbleColor PickRandomColor()
     {
-        return Common.GetRandomElement(BubbleHelper.BubbleColorsLv1);
+        return Common.GetRandomElement(Globals.GameState.BubbleColorsInGame);
     }
 
     private Vector2 CalculatePosition(int row, int col, bool isShortRow)
@@ -251,7 +281,7 @@ public class BubbleManager : IComponent
         if (bubblesToDestroy.Count == 0 && Globals.GameState.FreezeTime <= 0)
         {
             Globals.GameState.MissCount++;
-            if (Globals.GameState.MissCount == GameState.MaxMissCount)
+            if (Globals.GameState.MissCount == Globals.GameState.MaxMissCount)
             {
                 AddNewTopLine();
                 Globals.GameState.MissCount = 0;
@@ -457,6 +487,17 @@ public class BubbleManager : IComponent
     private bool IsValidGridPosition(Point pos)
     {
         return pos.Y >= 0 && pos.Y < _maxRows && pos.X >= 0 && pos.X < _maxColumns;
+    }
+
+    public void ClearAllBubble()
+    {
+        for (int row = 0; row < _maxRows; row++)
+        {
+            for (int col = 0; col < _maxColumns; col++)
+            {
+                _bubbles[row, col] = null;
+            }
+        }
     }
 
     private void PrintGrid()
