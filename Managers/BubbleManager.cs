@@ -15,6 +15,7 @@ public class BubbleManager : IComponent
     public readonly float _rowHeight;
     private readonly Bubble[,] _bubbles;
     private bool _isNextRowShort = false;
+    private bool _isClusterPopping = false;
     public BubbleManager(int maxRows, int maxColumns)
     {
         _maxRows = maxRows;
@@ -50,7 +51,55 @@ public class BubbleManager : IComponent
         //     _time -= 1;
         //     AddNewTopLine();
         // }
+
+        // for (int row = 0; row < _maxRows; row++)
+        // {
+        //     for (int col = 0; col < _maxColumns; col++)
+        //     {
+        //         if (_bubbles[row, col] != null)
+        //         {
+        //             _bubbles[row, col].Update();
+
+        //             // Remove bubble only when the shrinking animation completes
+        //             if (_bubbles[row, col].IsPopping && !_bubbles[row, col].IsActive)
+        //             {
+        //                 _bubbles[row, col] = null;
+        //             }
+        //         }
+        //     }
+        // }
+
+        bool isAnyBubblePopping = false; // Track if any cluster bubbles are still shrinking
+
+        for (int row = 0; row < _maxRows; row++)
+        {
+            for (int col = 0; col < _maxColumns; col++)
+            {
+                if (_bubbles[row, col] != null)
+                {
+                    _bubbles[row, col].Update();
+
+                    if (_bubbles[row, col].IsPopping) 
+                    {
+                        isAnyBubblePopping = true; // If any bubble is shrinking, we wait
+                    }
+
+                    // Remove the bubble only after animation completes
+                    if (_bubbles[row, col].IsPopping && !_bubbles[row, col].IsActive)
+                    {
+                        _bubbles[row, col] = null;
+                    }
+                }
+            }
+        }
+         // If no bubbles are popping anymore, remove floating bubbles
+        if (_isClusterPopping && !isAnyBubblePopping)
+        {
+            _isClusterPopping = false; // Reset flag
+            RemoveFloatingBubbles(); // Now remove floating bubbles
+        }
     }
+
 
     public void Draw()
     {
@@ -217,12 +266,18 @@ public class BubbleManager : IComponent
 
         if (connectedBubbles.Count >= 3)
         {
+            _isClusterPopping = true; // Mark that a cluster is popping
             foreach (Vector2 bubblePos in connectedBubbles)
             {
-                _bubbles[(int)bubblePos.Y, (int)bubblePos.X] = null;
+                Bubble bubble = _bubbles[(int)bubblePos.Y, (int)bubblePos.X];
+                if (bubble != null)
+                {
+                    bubble.StartPop(); // Start shrinking animation
+                }
             }
         }
     }
+
 
     private List<Vector2> FindConnectedBubblesColor(int col, int row, BubbleColor color)
     {
@@ -306,13 +361,14 @@ public class BubbleManager : IComponent
             }
         }
 
+        // Remove floating bubbles immediately
         for (int row = 1; row < _maxRows; row++)
         {
             for (int col = 0; col < _maxColumns; col++)
             {
                 if (_bubbles[row, col] != null && !connectedToTop.Contains(new Vector2(col, row)))
                 {
-                    _bubbles[row, col] = null;
+                    _bubbles[row, col] = null; // Directly remove floating bubbles
                 }
             }
         }

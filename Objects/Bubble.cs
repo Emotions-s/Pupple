@@ -17,6 +17,11 @@ public abstract class Bubble : IComponent
 
     public Vector2 Velocity { get; set; }
 
+    // Pop animation variables
+    public bool IsPopping { get; private set; } = false;
+    private float _scale = 1f;
+    private const float PopAnimationSpeed = 3f;
+
     public Bubble(Vector2 pos, Texture2D texture)
     {
         Position = pos;
@@ -29,6 +34,7 @@ public abstract class Bubble : IComponent
         Velocity = Vector2.Zero;
         IsActive = true;
         IsMoving = false;
+        _scale = 1f; // Reset scale
     }
 
     public void Update()
@@ -46,21 +52,60 @@ public abstract class Bubble : IComponent
         {
             IsActive = false;
         }
+        //if popping bubble shrink
+        if (IsPopping)
+        {
+            _scale -= PopAnimationSpeed * (float)Globals.Time;
+            if (_scale <= 0)
+            {
+                IsActive = false; // Bubble disappears after shrinking
+            }
+        }
+        else
+        {
+            Position += Velocity;
+            if (Position.X < Globals.BubbleRadius || Position.X > PlayScene.GameWindowWidth - Globals.BubbleRadius)
+            {
+                Velocity = new Vector2(-Velocity.X, Velocity.Y);
+            }
+            if (IsMoving && !IsInWindow())
+            {
+                IsActive = false;
+            }
+        }
+    }
+    public void StartPop()
+    {
+        IsPopping = true;
     }
 
     public void Draw()
     {
-        Globals.SpriteBatch.Draw(
-            _texture,
-            Position,
-            Viewport,
-            Color.White,
-            0f,
-            new Vector2(Globals.BubbleRadius, Globals.BubbleRadius),
-            1f,
-            SpriteEffects.None,
-            0f
-        );
+        // Globals.SpriteBatch.Draw(
+        //     _texture,
+        //     Position,
+        //     Viewport,
+        //     Color.White,
+        //     0f,
+        //     new Vector2(Globals.BubbleRadius, Globals.BubbleRadius),
+        //     1f,
+        //     SpriteEffects.None,
+        //     0f
+        // );
+        if (IsActive)
+        {
+            Globals.SpriteBatch.Draw(
+                _texture,
+                Position,
+                Viewport,
+                Color.White,
+                0f,
+                new Vector2(Globals.BubbleRadius, Globals.BubbleRadius),
+                _scale, // Apply scale animation
+                SpriteEffects.None,
+                0f
+            );
+        }
     }
 
     public bool IsColliding(Bubble bubble)
