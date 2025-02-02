@@ -53,7 +53,7 @@ public class Shooter : IComponent
         _moveSpeed = 200f;
         _shootSpeed = Globals.BubbleSpeed;
         _angle = 0f;
-        BubbleQueue = new Bubble[PlayerState.BubbleQueueMaxSize + 1];
+        BubbleQueue = new Bubble[PlayerState.MaxBubbleQueueSize + 1];
         Reload();
     }
     public void Update()
@@ -132,6 +132,14 @@ public class Shooter : IComponent
         Bubble temp = BubbleQueue[0];
         BubbleQueue[0] = BubbleQueue[index];
         BubbleQueue[index] = temp;
+    }
+
+    public void ChangeBubble(int index, Bubble bubble)
+    {
+        if (BubbleQueue[index] == null || BubbleQueue[0] == null || BubbleQueue[0].IsMoving) return;
+
+        bubble.Position = _position;
+        BubbleQueue[index] = bubble;
     }
 
     public void Reload()

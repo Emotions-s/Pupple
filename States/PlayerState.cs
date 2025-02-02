@@ -1,12 +1,22 @@
+using System.Diagnostics.Contracts;
+
 namespace Pupple.States;
 
 public class PlayerState
 {
-    public const int BubbleQueueMaxSize = 4;
+    public const int MaxBubbleQueueSize = 4;
+
+    public const int MaxSpecialBubbleNum = 4;
     public int CurrentBubbleQueueSize;
     public int ShooterRangeLv;
     public float AimRangeLv;
     public bool HaveShields;
+
+    public int BombNum;
+
+    public int FreezeNum;
+
+    public int RainbowNum;
 
     public PlayerState()
     {
@@ -19,5 +29,9 @@ public class PlayerState
         ShooterRangeLv = 0;
         AimRangeLv = 0;
         HaveShields = false;
+
+        BombNum = 1;
+        FreezeNum = 1;
+        RainbowNum = 1;
     }
 }
