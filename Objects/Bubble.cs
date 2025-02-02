@@ -17,7 +17,7 @@ public abstract class Bubble : IComponent
     public Rectangle Viewport { get; set; }
 
     public Vector2 Velocity { get; set; }
-    
+
     // Pop animation variables
     public bool IsPopping { get; private set; } = false;
     private float _scale = 1f;
