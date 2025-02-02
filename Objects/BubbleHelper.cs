@@ -73,4 +73,7 @@ public static class BubbleHelper
 
     public static readonly Rectangle ActiveShieldViewPort = new Rectangle(636, 360, 60, 60);
     public static readonly Rectangle InactiveShieldViewPort = new Rectangle(756, 360, 60, 60);
+    public static readonly Rectangle ActiveMissViewPort = new Rectangle(876, 360, 60, 60);
+    public static readonly Rectangle InactiveMissViewPort = new Rectangle(996, 360, 60, 60);
+
 }
