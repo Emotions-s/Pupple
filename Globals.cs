@@ -6,6 +6,7 @@ using Pupple.Managers;
 using Pupple.States;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
+using Pupple.Objects;
 
 namespace Pupple;
 
@@ -18,17 +19,18 @@ class Globals
     public const float BubblePadding = 2f;
     public static int GameWindowHeight = 1080;
     public const float BubbleSpeed = 25f;
-    public static SpriteBatch SpriteBatch { get; set; }
-    public static ContentManager Content { get; set; }
-    public static GraphicsDevice GraphicsDevice { get; set; }
-    public static BubbleManager BubbleManager { get; set; }
-    public static Shooter Shooter { get; set; }
-    public static Texture2D Pixel { get; set; }
-    public static Texture2D ShooterSceneSheet { get; set; }
-    public static Texture2D CardSheet { get; set; }
-    public static SpriteFont Font { get; set; }
-    public static GameState GameState { get; set; }
-    public static PlayerState PlayerState { get; set; }
+    public static SpriteBatch SpriteBatch;
+    public static ContentManager Content;
+    public static GraphicsDevice GraphicsDevice;
+    public static BubbleManager BubbleManager;
+    public static CardManager CardManager;
+    public static Shooter Shooter;
+    public static Texture2D Pixel;
+    public static Texture2D ShooterSceneSheet;
+    public static Texture2D CardSheet;
+    public static SpriteFont Font;
+    public static GameState GameState;
+    public static PlayerState PlayerState;
     public static float Time { get; private set; }
     public static Color BlueColor = new Color(84, 161, 185);
 

@@ -300,7 +300,11 @@ public class BubbleManager : IComponent
 
         HashSet<Vector2> bubblesToDestroy = new();
 
-        if (targetBubble is NormalBubble)
+        if (targetBubble is MagicBubble)
+        {
+            bubblesToDestroy = GetMagicPop(row, col);
+        }
+        else if (targetBubble is NormalBubble)
         {
             bubblesToDestroy = GetNormalBubblePop(row, col);
         }
@@ -425,6 +429,35 @@ public class BubbleManager : IComponent
         Globals.GameState.FreezeTime = FreezeBubble.FreezeTime;
         Globals.FreezeSound.Play();
         return [new(col, row)];
+    }
+
+    private HashSet<Vector2> GetMagicPop(int row, int col)
+    {
+        BubbleColor targetColor = ((NormalBubble)_bubbles[row, col]).Color;
+        List<Vector2> connectedBubbles = FindConnectedBubblesColor(col, row, targetColor);
+
+        if (connectedBubbles.Count >= 3)
+        {
+            return GetAllBubbleColor(targetColor);
+        }
+        _bubbles[row, col] = new NormalBubble(_bubbles[row, col].Position, Globals.ShooterSceneSheet, targetColor);
+        return [];
+    }
+
+    private HashSet<Vector2> GetAllBubbleColor(BubbleColor color)
+    {
+        HashSet<Vector2> bubbles = new();
+        for (int row = 0; row < _maxRows; row++)
+        {
+            for (int col = 0; col < _maxColumns; col++)
+            {
+                if (_bubbles[row, col] is NormalBubble && ((NormalBubble)_bubbles[row, col]).Color == color)
+                {
+                    bubbles.Add(new Vector2(col, row));
+                }
+            }
+        }
+        return bubbles;
     }
 
     private List<Vector2> GetAllNeighbors(int col, int row)

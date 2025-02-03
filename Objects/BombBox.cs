@@ -63,7 +63,7 @@ public class BombBox : Box
                 _activeIndex == i ? Color.Gray : Color.White,
                 0f,
                 middleOffset,
-                0.75f,
+                _activeIndex == i ? 1f : 0.75f,
                 SpriteEffects.None,
                 0f
             );

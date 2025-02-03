@@ -1,3 +1,5 @@
+using Pupple.Objects;
+
 namespace Pupple.States;
 
 public class PlayerState
@@ -11,11 +13,15 @@ public class PlayerState
     public float AimRangeLv;
     public bool HaveShields;
 
+    public bool AlreadyShieldedInRun;
+
     public int BombNum;
 
     public int FreezeNum;
 
     public int RainbowNum;
+
+    public MagicBubble[] MagicBubbles;
 
     public PlayerState()
     {
@@ -24,13 +30,15 @@ public class PlayerState
 
     public void Reset()
     {
-        CurrentBubbleQueueSize = 0;
-        ShooterRangeLv = 0;
-        AimRangeLv = 0;
+        MagicBubbles = new MagicBubble[MaxSpecialBubbleNum];
+        AlreadyShieldedInRun = false;
+        CurrentBubbleQueueSize = 4;
+        ShooterRangeLv = 4;
+        AimRangeLv = 4;
         HaveShields = true;
 
-        BombNum = 1;
-        FreezeNum = 2;
+        BombNum = 4;
+        FreezeNum = 3;
         RainbowNum = 4;
     }
 }

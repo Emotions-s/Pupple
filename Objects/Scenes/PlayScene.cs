@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -19,6 +20,8 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
     private Window[] _windows;
 
     private RenderTarget2D[] _windowTargets;
+
+
 
     protected override void Load()
     {
@@ -59,6 +62,7 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
         BombBox bombBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 3), "Bomber Ball", Color.White, Globals.DarkerBlueColor, Globals.ShooterSceneSheet);
         FreezeBox freezeBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 6), "Freeze Ball", Color.White, Globals.DarkerBlueColor, Globals.ShooterSceneSheet);
         RainbowBox rainbowBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 9), "Rainbow Ball", Color.White, Globals.DarkerBlueColor, Globals.ShooterSceneSheet);
+        MagicBox magicBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 12), "Magic Ball", Color.White, Globals.DarkerBlueColor, Globals.ShooterSceneSheet);
         QueueBox queueBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 15), "Queue", Globals.DarkerBlueColor, Color.White, Globals.ShooterSceneSheet);
 
         Window rightWindow = new(SideBarWidth, Globals.ScreenH, new(RightBarOffset, 0), Globals.BlueColor)
@@ -68,6 +72,7 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
                 bombBox,
                 freezeBox,
                 rainbowBox,
+                magicBox,
                 queueBox
             ],
         };
@@ -78,6 +83,7 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
             rightWindow,
         ];
         _windowTargets = new RenderTarget2D[_windows.Length];
+        Globals.CardManager = new CardManager();
     }
     public override void Reset()
     {
@@ -92,17 +98,7 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
     public override void Update()
     {
         // Debug tools
-        if (InputManager.KeyPressed(Keys.F1))
-        {
-            Globals.BubbleManager.ClearAllBubble();
-            return;
-        }
-        if (InputManager.KeyPressed(Keys.F2))
-        {
-            Globals.BubbleManager.AddNewTopLine();
-            return;
-        }
-
+        HandleDebug();
         if (Globals.GameState.CurrentState == GameState.State.GameOver)
         {
             if (InputManager.KeyPressed(Keys.Space))
@@ -111,12 +107,13 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
             }
             return;
         }
-        if (Globals.BubbleManager.IsPassTheStage())
+        if (Globals.GameState.CurrentState == GameState.State.Playing)
         {
-            Globals.GameState.LevelUp();
-            Globals.BubbleManager.Reset();
-            Globals.Shooter.Reset();
-            return;
+            if (Globals.BubbleManager.IsPassTheStage())
+            {
+                ChangeGameState(GameState.State.Shop);
+                return;
+            }
         }
 
         for (int i = 0; i < _windows.Length; i++)
@@ -127,6 +124,10 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
         if (Globals.GameState.FreezeTime <= 0)
         {
             Globals.GameState.FreezeTime = 0;
+        }
+        if (Globals.GameState.CurrentState == GameState.State.Shop)
+        {
+            Globals.CardManager.Update();
         }
     }
 
@@ -139,6 +140,10 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
         if (Globals.GameState.CurrentState == GameState.State.GameOver)
         {
             ShowDeadScreen();
+        }
+        if (Globals.GameState.CurrentState == GameState.State.Shop)
+        {
+            Globals.CardManager.Draw();
         }
     }
 
@@ -156,6 +161,23 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
         Globals.SpriteBatch.End();
         Globals.GraphicsDevice.SetRenderTarget(null);
         return target;
+    }
+
+    public static void ChangeGameState(GameState.State state)
+    {
+        Globals.GameState.CurrentState = state;
+        if (state == GameState.State.Shop)
+        {
+            Globals.CardManager.DrawCards();
+            Globals.GameState.CurrentState = GameState.State.Shop;
+        }
+        else if (state == GameState.State.Playing)
+        {
+            Globals.GameState.LevelUp();
+            Globals.BubbleManager.Reset();
+            Globals.Shooter.Reset();
+            Globals.GameState.CurrentState = GameState.State.Playing;
+        }
     }
 
     private void ShowDeadScreen()
@@ -199,5 +221,26 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
             SpriteEffects.None,
             0f
         );
+    }
+
+    private void HandleDebug()
+    {
+        if (InputManager.KeyPressed(Keys.F2))
+        {
+            Globals.BubbleManager.AddNewTopLine();
+            return;
+        }
+
+        if (InputManager.KeyPressed(Keys.F3))
+        {
+            ChangeGameState(GameState.State.Shop);
+            return;
+        }
+
+        if (InputManager.KeyPressed(Keys.F4))
+        {
+            ChangeGameState(GameState.State.Playing);
+            return;
+        }
     }
 }

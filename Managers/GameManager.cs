@@ -1,6 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using Pupple.Objects.Scenes;
 
 namespace Pupple.Managers;
 

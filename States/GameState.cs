@@ -23,6 +23,8 @@ public class GameState
     private const int MinIgnorePercent = 20;
     private const int MaxStartLine = 10;
 
+    private const int StartColor = 4;
+
     public int Level;
 
     public int MaxMissCount;
@@ -44,7 +46,7 @@ public class GameState
         CurrentState = State.Playing;
         Level = 1;
         BubbleColorsInGame = new();
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < StartColor; i++)
         {
             BubbleColorsInGame.Add((BubbleColor)i);
         }
@@ -65,7 +67,7 @@ public class GameState
         // add new color every 10 levels
         if (Level % AddColorRound == 0)
         {
-            var n = Math.Min(Level / AddColorRound, BubbleHelper.BubbleColors.Count - 1);
+            var n = Math.Min(Level / AddColorRound + StartColor - 1, BubbleHelper.BubbleColors.Count - 1);
             BubbleColorsInGame.Add((BubbleColor)n);
         }
 

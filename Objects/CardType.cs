@@ -8,6 +8,14 @@ public enum CardType
     Freeze,
     Rainbow,
     SpecialColor,
-
-    Shield
+    Shield,
+    GreenSpecial,
+    OrangeSpecial,
+    PinkSpecial,
+    RedSpecial,
+    YellowSpecial,
+    WhiteSpecial,
+    BlueSpecial,
+    PurpleSpecial,
+    Null,
 }

@@ -9,13 +9,13 @@ public static class BubbleHelper
     public static readonly List<BubbleColor> BubbleColors = new List<BubbleColor>
     {
         BubbleColor.Green,
-        BubbleColor.White,
         BubbleColor.Pink,
-        BubbleColor.Red,
+        BubbleColor.Orange,
         BubbleColor.Yellow,
         BubbleColor.Blue,
+        BubbleColor.White,
+        BubbleColor.Red,
         BubbleColor.Purple,
-        BubbleColor.Orange
     };
 
     public static int[][] LongRowOffsets =
@@ -52,10 +52,31 @@ public static class BubbleHelper
 
     public static readonly SortedDictionary<BubbleSpecial, Rectangle> SpecialBubbleViewPort = new SortedDictionary<BubbleSpecial, Rectangle>
     {
-        {BubbleSpecial.Bomb, new Rectangle(960, 240, 60, 60)}, // red
-        {BubbleSpecial.Freeze, new Rectangle(1080, 240, 60, 60)}, // purple
-        {BubbleSpecial.Rainbow, new Rectangle(1200, 240, 60, 60)}, // orange
+        {BubbleSpecial.Bomb, new Rectangle(960, 240, 60, 60)},
+        {BubbleSpecial.Freeze, new Rectangle(1080, 240, 60, 60)},
+        {BubbleSpecial.Rainbow, new Rectangle(1200, 240, 60, 60)},
+        {BubbleSpecial.MagicGreen, new Rectangle(0, 240, 60, 60)},
+        {BubbleSpecial.MagicOrange, new Rectangle(120, 240, 60, 60)},
+        {BubbleSpecial.MagicPink, new Rectangle(240, 240, 60, 60)},
+        {BubbleSpecial.MagicRed, new Rectangle(360, 240, 60, 60)},
+        {BubbleSpecial.MagicYellow, new Rectangle(480, 240, 60, 60)},
+        {BubbleSpecial.MagicWhite, new Rectangle(600, 240, 60, 60)},
+        {BubbleSpecial.MagicBlue, new Rectangle(720, 240, 60, 60)},
+        {BubbleSpecial.MagicPurple, new Rectangle(840, 240, 60, 60)},
     };
+
+    public static readonly SortedDictionary<BubbleColor, BubbleSpecial> SpecialColorMap = new SortedDictionary<BubbleColor, BubbleSpecial>
+    {
+        {BubbleColor.Green, BubbleSpecial.MagicGreen},
+        {BubbleColor.Orange, BubbleSpecial.MagicOrange},
+        {BubbleColor.Pink, BubbleSpecial.MagicPink},
+        {BubbleColor.Red, BubbleSpecial.MagicRed},
+        {BubbleColor.Yellow, BubbleSpecial.MagicYellow},
+        {BubbleColor.White, BubbleSpecial.MagicWhite},
+        {BubbleColor.Blue, BubbleSpecial.MagicBlue},
+        {BubbleColor.Purple, BubbleSpecial.MagicPurple},
+    };
+
 
     public static readonly SortedDictionary<BubbleColor, Rectangle> SwapNormalBubbleViewPort = new SortedDictionary<BubbleColor, Rectangle>
     {

@@ -3,11 +3,11 @@ namespace Pupple.Objects;
 public enum BubbleColor
 {
     Green,
-    White,
     Pink,
-    Red,
+    Orange,
     Yellow,
     Blue,
+    White,
+    Red,
     Purple,
-    Orange
 }

@@ -5,5 +5,12 @@ public enum BubbleSpecial
     Bomb,
     Freeze,
     Rainbow,
-    Magic,
+    MagicGreen,
+    MagicOrange,
+    MagicPink,
+    MagicRed,
+    MagicYellow,
+    MagicWhite,
+    MagicBlue,
+    MagicPurple,
 }
