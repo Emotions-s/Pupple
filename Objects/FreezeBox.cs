@@ -27,7 +27,7 @@ public class FreezeBox : Box
             if (indexX >= 1 && indexX <= PlayerState.MaxBubbleQueueSize)
             {
                 _activeIndex = indexX;
-                if (InputManager.Clicked)
+                if (InputManager.Clicked && Globals.Shooter.BubbleQueue[0] is NormalBubble)
                 {
                     Globals.Shooter.ChangeBubble(0, new FreezeBubble(Vector2.Zero, Texture));
                     Globals.PlayerState.FreezeNum--;
@@ -57,8 +57,7 @@ public class FreezeBox : Box
             var vp = BubbleHelper.SpecialBubbleViewPort[BubbleSpecial.Freeze];
             var middleOffset = new Vector2(vp.Width / 2, vp.Height / 2);
             Globals.SpriteBatch.Draw(Texture,
-                OriginPos + new Vector2(Globals.GridSize * i,
-                Globals.GridSize * 2 - vp.Height) + middleOffset,
+                OriginPos + new Vector2(Globals.GridSize * i, Globals.GridSize * 2 - vp.Height) + middleOffset,
                 vp,
                 _activeIndex == i ? Color.Gray : Color.White,
                 0f,

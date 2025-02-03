@@ -27,7 +27,7 @@ public class MagicBox : Box
             if (indexX >= 1 && indexX <= PlayerState.MaxBubbleQueueSize)
             {
                 _activeIndex = indexX;
-                if (InputManager.Clicked)
+                if (InputManager.Clicked && Globals.Shooter.BubbleQueue[0] is NormalBubble)
                 {
                     Globals.Shooter.ChangeBubble(0, Globals.PlayerState.MagicBubbles[_activeIndex - 1]);
                     int i = _activeIndex - 1;

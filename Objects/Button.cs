@@ -9,7 +9,7 @@ namespace Pupple.Objects
     {
         protected Vector2 position;
         protected Texture2D texture;
-        public Rectangle sourceRectangle; 
+        public Rectangle sourceRectangle;
         private bool isHovered;
         private bool isClicked;
         public Action onClickAction;
@@ -49,7 +49,11 @@ namespace Pupple.Objects
 
         public void Draw()
         {
-            Globals.SpriteBatch.Draw(texture, position, sourceRectangle, Color.White);
+            Globals.SpriteBatch.Draw(texture,
+                position,
+                sourceRectangle,
+                isHovered ? Color.Gray : Color.White
+            );
         }
 
         private bool IsMouseOver()

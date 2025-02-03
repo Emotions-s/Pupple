@@ -27,7 +27,7 @@ public class BombBox : Box
             if (indexX >= 1 && indexX <= PlayerState.MaxBubbleQueueSize)
             {
                 _activeIndex = indexX;
-                if (InputManager.Clicked)
+                if (InputManager.Clicked && Globals.Shooter.BubbleQueue[0] is NormalBubble)
                 {
                     Globals.Shooter.ChangeBubble(0, new BombBubble(Vector2.Zero, Texture));
                     Globals.PlayerState.BombNum--;

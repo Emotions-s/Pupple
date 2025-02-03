@@ -27,7 +27,7 @@ public class RainbowBox : Box
             if (indexX >= 1 && indexX <= PlayerState.MaxBubbleQueueSize)
             {
                 _activeIndex = indexX;
-                if (InputManager.Clicked)
+                if (InputManager.Clicked && Globals.Shooter.BubbleQueue[0] is NormalBubble)
                 {
                     Globals.Shooter.ChangeBubble(0, new RainbowBubble(Vector2.Zero, Texture));
                     Globals.PlayerState.RainbowNum--;
