@@ -10,7 +10,6 @@ namespace Pupple;
 public class Pupple : Game
 {
     private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch;
     private GameManager _gameManager;
 
     public Pupple()
@@ -24,10 +23,10 @@ public class Pupple : Game
     {
         _graphics.PreferredBackBufferWidth = Globals.ScreenW;
         _graphics.PreferredBackBufferHeight = Globals.ScreenH;
-        _graphics.IsFullScreen = true;
+        // _graphics.IsFullScreen = true;
         _graphics.ApplyChanges();
 
-        Window.Title = "Pubble Shooter";
+        Window.Title = "Pupple";
         Window.AllowUserResizing = false;
 
         base.Initialize();

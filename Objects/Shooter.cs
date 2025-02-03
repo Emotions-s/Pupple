@@ -59,12 +59,14 @@ public class Shooter : IComponent
     }
     public void Update()
     {
-        if(Globals.IsFalling == false){
-            if (Globals.GameState.CurrentState != GameState.State.Playing) return;
 
-            HandleMoveShooter();
+        if (Globals.GameState.CurrentState != GameState.State.Playing) return;
 
-            RotateToMouse();
+        HandleMoveShooter();
+
+        RotateToMouse();
+        if (Globals.IsFalling == false)
+        {
             if (InputManager.Clicked && Common.IsInGameWindow(InputManager.MousePosition))
             {
                 ShootCurrentBubble();
@@ -106,7 +108,7 @@ public class Shooter : IComponent
         );
 
         BubbleQueue[0]?.Draw();
-        DrawBouncingLine(_position, new Vector2((float)Math.Cos(_angle), (float)Math.Sin(_angle)), 1000, Color.White, 2);
+        DrawBouncingLine(_position, 300 + Globals.PlayerState.AimRangeLv * 220, Color.White, 2);
     }
 
     private void RotateToMouse()
@@ -201,26 +203,34 @@ public class Shooter : IComponent
         BubbleQueue[0].IsMoving = true;
 
     }
-    private void DrawBouncingLine(Vector2 start, Vector2 direction, float maxLength, Color color, float thickness)
+    private void DrawBouncingLine(Vector2 start, float maxLength, Color color, float thickness)
     {
-        Vector2 end = start;
+        // Vector2 start = start;
         float remainingLength = maxLength;
+
+        Vector2 direction = new Vector2((float)Math.Cos(_angle), (float)Math.Sin(_angle));
 
         while (remainingLength > 1)
         {
-            Vector2 nextEnd = end + direction * remainingLength;
+            Vector2 end = start + direction * remainingLength;
 
-            if (nextEnd.X < 0 || nextEnd.X > PlayScene.GameWindowWidth)
+            if (end.X >= PlayScene.GameWindowWidth)
             {
                 direction.X = -direction.X;
-                nextEnd.X = MathHelper.Clamp(nextEnd.X, 0, PlayScene.GameWindowWidth);
+                var ratio = (PlayScene.GameWindowWidth - start.X) / (end.X - start.X);
+                end = new Vector2(PlayScene.GameWindowWidth, start.Y - ((start.Y - end.Y) * ratio));
             }
-
-            float segmentLength = (nextEnd - end).Length();
+            else if (end.X < 0)
+            {
+                direction.X = -direction.X;
+                var ratio = -start.X / (end.X - start.X);
+                end = new Vector2(0, start.Y - ((start.Y - end.Y) * ratio));
+            }
+            float segmentLength = (end - start).Length();
             remainingLength -= segmentLength;
 
-            DrawLine(end, nextEnd, color, thickness);
-            end = nextEnd;
+            DrawLine(start, end, color, thickness);
+            start = end;
         }
     }
 
@@ -229,7 +239,6 @@ public class Shooter : IComponent
         Vector2 direction = end - start;
         float length = direction.Length();
         float angle = (float)Math.Atan2(direction.Y, direction.X);
-
         Globals.SpriteBatch.Draw(Globals.Pixel, start, null, color, angle, new Vector2(0, thickness / 2), new Vector2(length, thickness), SpriteEffects.None, 0);
     }
 }
