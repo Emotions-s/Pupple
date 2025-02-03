@@ -59,20 +59,22 @@ public class Shooter : IComponent
     }
     public void Update()
     {
-        if (Globals.GameState.CurrentState != GameState.State.Playing) return;
+        if(Globals.IsFalling == false){
+            if (Globals.GameState.CurrentState != GameState.State.Playing) return;
 
-        HandleMoveShooter();
+            HandleMoveShooter();
 
-        RotateToMouse();
-        if (InputManager.Clicked && Common.IsInGameWindow(InputManager.MousePosition))
-        {
-            ShootCurrentBubble();
-        }
-        BubbleQueue[0]?.Update();
+            RotateToMouse();
+            if (InputManager.Clicked && Common.IsInGameWindow(InputManager.MousePosition))
+            {
+                ShootCurrentBubble();
+            }
+            BubbleQueue[0]?.Update();
 
-        if (BubbleQueue[0]?.IsMoving == true)
-        {
-            Globals.BubbleManager.HandleShotBubble(BubbleQueue[0]);
+            if (BubbleQueue[0]?.IsMoving == true)
+            {
+                Globals.BubbleManager.HandleShotBubble(BubbleQueue[0]);
+            }
         }
     }
 

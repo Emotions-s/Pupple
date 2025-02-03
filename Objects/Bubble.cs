@@ -68,6 +68,7 @@ public abstract class Bubble : IComponent
         }
         else if (IsFloating)
         {
+            Globals.IsFalling = true;
             elapsedTime += (float)Globals.Time;
 
             if (elapsedTime < floatTime)
@@ -80,6 +81,7 @@ public abstract class Bubble : IComponent
                 if (Position.Y > Globals.GameWindowHeight + Globals.BubbleRadius)
                 {
                     IsActive = false; // Remove bubble when it falls off the screen
+                    Globals.IsFalling = false;
                 }
             }
         }

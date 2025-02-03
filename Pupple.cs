@@ -24,7 +24,7 @@ public class Pupple : Game
     {
         _graphics.PreferredBackBufferWidth = Globals.ScreenW;
         _graphics.PreferredBackBufferHeight = Globals.ScreenH;
-        // _graphics.IsFullScreen = true;
+        _graphics.IsFullScreen = true;
         _graphics.ApplyChanges();
 
         Window.Title = "Pubble Shooter";
