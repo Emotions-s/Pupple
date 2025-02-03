@@ -156,6 +156,7 @@ public class CardManager
                 AddMagicBubble(BubbleColor.Purple);
                 break;
         }
+        Globals.PickCardSoundInstance.Play();
     }
 
     public void DrawCards()

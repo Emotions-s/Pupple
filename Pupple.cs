@@ -35,6 +35,7 @@ public class Pupple : Game
 
     protected override void LoadContent()
     {
+        
         Globals.Content = Content;
         Globals.GraphicsDevice = GraphicsDevice;
         Globals.SpriteBatch = new SpriteBatch(GraphicsDevice);
@@ -52,8 +53,6 @@ public class Pupple : Game
         Globals.PopSound = Content.Load<SoundEffect>("sounds/BubblePop");
         Globals.CollideSound = Content.Load<SoundEffect>("sounds/BubbleCollide");
         Globals.DropSound = Content.Load<SoundEffect>("sounds/Drop");
-        Globals.DropSoundInstance = Globals.DropSound.CreateInstance();
-        Globals.DropSoundInstance.Volume = 0.3f;
         Globals.WinSound = Content.Load<SoundEffect>("sounds/Win");
         Globals.LoseSound = Content.Load<SoundEffect>("sounds/Lose");
         Globals.ExplodeSound = Content.Load<SoundEffect>("sounds/Bomber");
@@ -63,6 +62,19 @@ public class Pupple : Game
         Globals.PickCardSound = Content.Load<SoundEffect>("sounds/PickCard");
         Globals.ExtraLifeConsumeSound = Content.Load<SoundEffect>("sounds/ExtraLifeConsume");
 
+        Globals.PopSoundInstance = Globals.PopSound.CreateInstance();
+        Globals.CollideSoundInstance = Globals.CollideSound.CreateInstance();
+        Globals.DropSoundInstance = Globals.DropSound.CreateInstance();
+        Globals.WinSoundInstance = Globals.WinSound.CreateInstance();
+        Globals.LoseSoundInstance = Globals.LoseSound.CreateInstance();
+        Globals.ExplodeSoundInstance = Globals.ExplodeSound.CreateInstance();
+        Globals.FreezeSoundInstance = Globals.FreezeSound.CreateInstance();
+        Globals.RainbowSoundInstance = Globals.RainbowSound.CreateInstance();
+        Globals.MagicSoundInstance = Globals.MagicSound.CreateInstance();
+        Globals.PickCardSoundInstance = Globals.PickCardSound.CreateInstance();
+        Globals.ExtraLifeConsumeSoundInstance = Globals.ExtraLifeConsumeSound.CreateInstance();
+        //Globals.DropSoundInstance = Globals.DropSound.CreateInstance();
+        //Globals.DropSoundInstance.Volume = 0.3f;
         Globals.backgroundMusic = Content.Load<Song>("sounds/BackgroundMusic");
         MediaPlayer.IsRepeating = true;
         MediaPlayer.Volume = 0.15f;
@@ -74,7 +86,7 @@ public class Pupple : Game
     {
         Globals.Update(gameTime);
         _gameManager.Update();
-
+        
         base.Update(gameTime);
     }
 

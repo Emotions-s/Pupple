@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using Pupple.Managers;
 using Pupple.States;
 
@@ -30,6 +31,44 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
         ExtraLifeBox extraLifeBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 3), "Extra Life", Color.White, Globals.DarkBlueColor, Globals.ShooterSceneSheet, BubbleHelper.ActiveShieldViewPort, BubbleHelper.InactiveShieldViewPort);
         MissCountBox missCountBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 7), "Miss Count", Globals.DarkerBlueColor, Color.White, Globals.ShooterSceneSheet, BubbleHelper.ActiveMissViewPort, BubbleHelper.InactiveMissViewPort);
         FreezeTimeBox freezeTimeBox = new(Globals.GridSize * 6, Globals.GridSize * 2, new Vector2(0, Globals.GridSize * 9), "Freeze", Color.LightGray, Globals.DarkerBlueColor);
+ 
+        Button muteButton = new Button(
+            new Vector2(Globals.GridSize * 1, Globals.GridSize * 16),  // Position
+            Globals.ShooterSceneSheet,  // Texture (the full sprite sheet)
+            new Rectangle(216, 360, 60, 60),  // Initial Source Rectangle (Muted Button sprite)
+            null   
+        );
+
+        muteButton.onClickAction = () =>
+        {
+            if (Globals.Muted)
+            {
+                // Unmute
+                MediaPlayer.Volume = 0.3f;  // Restore music volume
+                Globals.UnmuteAllSoundVolumes();  // Unmute all sound effects
+                Globals.Muted = false;  // Set the mute flag to false
+                muteButton.sourceRectangle = new Rectangle(216, 360, 120, 60);  // Unmuted Button sprite
+            }
+            else
+            {
+                // Mute
+                MediaPlayer.Volume = 0;  // Mute the music
+                Globals.MuteAllSoundVolumes();  // Mute all sound effects
+                Globals.Muted = true;  // Set the mute flag to true
+                muteButton.sourceRectangle = new Rectangle(336, 360, 60, 60);  // Muted Button sprite
+            }
+        };
+
+        Button exitButton = new Button(
+            new Vector2(Globals.GridSize * 3, Globals.GridSize * 16),  // Position
+            Globals.ShooterSceneSheet,  // Texture (the full sprite sheet)
+            new Rectangle(456, 360, 120, 60),  // Source rectangle (position and size in the sprite sheet)
+            () =>
+                {
+                    // Action to exit the game
+                    Environment.Exit(0);  // Exits the application
+                }
+        );
 
         Window leftWindow = new(SideBarWidth, Globals.ScreenH, new(LeftBarOffset, 0), Globals.BlueColor)
         {
@@ -37,7 +76,9 @@ public class PlayScene(GameManager gameManager) : Scene(gameManager)
                 levelBox,
                 extraLifeBox,
                 missCountBox,
-                freezeTimeBox
+                freezeTimeBox,
+                muteButton,
+                exitButton
             ],
         };
 

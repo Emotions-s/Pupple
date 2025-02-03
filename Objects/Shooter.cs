@@ -158,7 +158,7 @@ public class Shooter : IComponent
 
     public void SwitchBubble(int index)
     {
-        if (BubbleQueue[index] == null || BubbleQueue[0] == null || BubbleQueue[0].IsMoving) return;
+        if (BubbleQueue[index] == null || BubbleQueue[0] == null || BubbleQueue[0].IsMoving || BubbleQueue[0] is not NormalBubble) return;
 
         Bubble temp = BubbleQueue[0];
         BubbleQueue[0] = BubbleQueue[index];
