@@ -64,6 +64,7 @@ class Globals
     public static SoundEffect ExtraLifeConsumeSound;
 
     public static Song backgroundMusic;
+    public static bool IsFalling = false;
 
     public static SoundEffectInstance DropSoundInstance;
     private Globals()
