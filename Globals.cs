@@ -66,7 +66,31 @@ class Globals
     public static Song backgroundMusic;
     public static bool IsFalling = false;
 
+    
+
+    public static SoundEffectInstance PopSoundInstance;
+
+    public static SoundEffectInstance CollideSoundInstance;
+
     public static SoundEffectInstance DropSoundInstance;
+
+    public static SoundEffectInstance WinSoundInstance;
+
+    public static SoundEffectInstance LoseSoundInstance;
+
+    public static SoundEffectInstance ExplodeSoundInstance;
+
+    public static SoundEffectInstance FreezeSoundInstance;
+
+    public static SoundEffectInstance RainbowSoundInstance;
+
+    public static SoundEffectInstance MagicSoundInstance;
+
+    public static SoundEffectInstance PickCardSoundInstance;
+
+    public static SoundEffectInstance ExtraLifeConsumeSoundInstance;
+
+    public static bool Muted = false;
     private Globals()
     {
     }
@@ -95,4 +119,34 @@ class Globals
     {
         return new(GraphicsDevice, ScreenW, ScreenH);
     }
+
+    public static void MuteAllSoundVolumes()
+    {
+        PopSoundInstance.Volume = 0f;
+        CollideSoundInstance.Volume = 0f;
+        DropSoundInstance.Volume = 0f;
+        WinSoundInstance.Volume = 0f;
+        LoseSoundInstance.Volume = 0f;
+        ExplodeSoundInstance.Volume = 0f;
+        FreezeSoundInstance.Volume = 0f;
+        RainbowSoundInstance.Volume = 0f;
+        MagicSoundInstance.Volume = 0f;
+        PickCardSoundInstance.Volume = 0f;
+        ExtraLifeConsumeSoundInstance.Volume = 0f;
+    }
+    public static void UnmuteAllSoundVolumes()
+    {
+        PopSoundInstance.Volume = 1f;
+        CollideSoundInstance.Volume = 1f;
+        DropSoundInstance.Volume = 0.3f;
+        WinSoundInstance.Volume = 1f;
+        LoseSoundInstance.Volume = 1f;
+        ExplodeSoundInstance.Volume = 1f;
+        FreezeSoundInstance.Volume = 1f;
+        RainbowSoundInstance.Volume = 1f;
+        MagicSoundInstance.Volume = 1f;
+        PickCardSoundInstance.Volume = 1f;
+        ExtraLifeConsumeSoundInstance.Volume = 1f;
+    }
+
 }

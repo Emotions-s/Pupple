@@ -112,11 +112,11 @@ public class BubbleManager : IComponent
                     {
                         ClearRow(_maxRows - i - 1);
                     }
-                    Globals.ExtraLifeConsumeSound.Play();
+                    Globals.ExtraLifeConsumeSoundInstance.Play();
                     return;
                 }
                 Globals.GameState.CurrentState = GameState.State.GameOver;
-                Globals.LoseSound.Play();
+                Globals.LoseSoundInstance.Play();
                 return;
             }
         }
@@ -161,7 +161,7 @@ public class BubbleManager : IComponent
                 if (targetBubble != null && shotBubble.IsColliding(targetBubble) || shotBubble.Position.Y < _bubbleRadius)
                 {
                     AddBubble(shotBubble, shotGridPos.Y, shotGridPos.X);
-                    Globals.CollideSound.Play();
+                    Globals.CollideSoundInstance.Play();
                     Globals.Shooter.Reload();
                     return;
                 }
@@ -303,6 +303,7 @@ public class BubbleManager : IComponent
         if (targetBubble is MagicBubble)
         {
             bubblesToDestroy = GetMagicPop(row, col);
+            Globals.MagicSoundInstance.Play();
         }
         else if (targetBubble is NormalBubble)
         {
@@ -311,14 +312,17 @@ public class BubbleManager : IComponent
         else if (targetBubble is BombBubble)
         {
             bubblesToDestroy = GetBombBubblePop(row, col);
+            Globals.ExplodeSoundInstance.Play();
         }
         else if (targetBubble is RainbowBubble)
         {
             bubblesToDestroy = GetRainbowBubblePop(row, col);
+            Globals.RainbowSoundInstance.Play();
         }
         else if (targetBubble is FreezeBubble)
         {
             bubblesToDestroy = GetFreezeBubblePop(row, col);
+            Globals.FreezeSoundInstance.Play();
         }
 
         if (bubblesToDestroy.Count == 0 && Globals.GameState.FreezeTime <= 0)
@@ -349,13 +353,10 @@ public class BubbleManager : IComponent
                 bubble.StartPop(); // Start shrinking animation
             }
         }
-        if (playSound&&true)
-        {
-            Globals.PopSound?.Play();
-        }
+    
         if (playSound)
         {
-            Globals.PopSound?.Play();
+            Globals.PopSoundInstance?.Play();
         }
 
     }
@@ -389,7 +390,6 @@ public class BubbleManager : IComponent
                 bubblesToDestroy.Add(neighbor);
             }
         }
-        Globals.ExplodeSound.Play();
         return bubblesToDestroy;
     }
 
@@ -419,7 +419,6 @@ public class BubbleManager : IComponent
         }
 
         bubblesToDestroy.Add(new Vector2(col, row));
-        Globals.RainbowSound.Play();
         return bubblesToDestroy;
     }
 
@@ -427,7 +426,6 @@ public class BubbleManager : IComponent
     {
 
         Globals.GameState.FreezeTime = FreezeBubble.FreezeTime;
-        Globals.FreezeSound.Play();
         return [new(col, row)];
     }
 
