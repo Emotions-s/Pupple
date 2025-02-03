@@ -49,14 +49,21 @@ public class Pupple : Game
         Globals.Pixel = pixel;
         Globals.GameState = new GameState();
         Globals.PlayerState = new PlayerState();
-        Globals.PopSound = Content.Load<SoundEffect>("BubblePop");
-        Globals.CollideSound = Content.Load<SoundEffect>("BubbleCollide");
-        Globals.DropSound = Content.Load<SoundEffect>("Drop");
+        Globals.PopSound = Content.Load<SoundEffect>("sounds/BubblePop");
+        Globals.CollideSound = Content.Load<SoundEffect>("sounds/BubbleCollide");
+        Globals.DropSound = Content.Load<SoundEffect>("sounds/Drop");
         Globals.DropSoundInstance = Globals.DropSound.CreateInstance();
         Globals.DropSoundInstance.Volume = 0.3f;
-        Globals.WinSound = Content.Load<SoundEffect>("Win");
-        Globals.LoseSound = Content.Load<SoundEffect>("Lose");
-        Globals.backgroundMusic = Content.Load<Song>("BackgroundMusic");
+        Globals.WinSound = Content.Load<SoundEffect>("sounds/Win");
+        Globals.LoseSound = Content.Load<SoundEffect>("sounds/Lose");
+        Globals.ExplodeSound = Content.Load<SoundEffect>("sounds/Bomber");
+        Globals.FreezeSound = Content.Load<SoundEffect>("sounds/Freeze");
+        Globals.RainbowSound = Content.Load<SoundEffect>("sounds/Rainbow");
+        Globals.MagicSound = Content.Load<SoundEffect>("sounds/Magic");
+        Globals.PickCardSound = Content.Load<SoundEffect>("sounds/PickCard");
+        Globals.ExtraLifeConsumeSound = Content.Load<SoundEffect>("sounds/ExtraLifeConsume");
+
+        Globals.backgroundMusic = Content.Load<Song>("sounds/BackgroundMusic");
         MediaPlayer.IsRepeating = true;
         MediaPlayer.Volume = 0.15f;
         MediaPlayer.Play(Globals.backgroundMusic);

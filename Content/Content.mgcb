@@ -13,42 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin BackgroundMusic.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:BackgroundMusic.mp3
-
-#begin BubbleCollide.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:BubbleCollide.mp3
-
-#begin BubblePop.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:BubblePop.mp3
-
-#begin Drop.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Drop.mp3
-
 #begin fonts/gameFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:fonts/gameFont.spritefont
-
-#begin Lose.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Lose.mp3
 
 #begin objects/Balls.png
 /importer:TextureImporter
@@ -110,9 +80,147 @@
 /processorParam:TextureFormat=Color
 /build:objects/ShooterSceneSheet.png
 
-#begin Win.mp3
+#begin sounds/BackgroundMusic.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:sounds/BackgroundMusic.mp3;BackgroundMusic.mp3
+
+#begin sounds/BackgroundMusic.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:sounds/BackgroundMusic.mp3
+
+#begin sounds/Bomber.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:sounds/Bomber.mp3;Bomber.mp3
+
+#begin sounds/Bomber.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Win.mp3
+/build:sounds/Bomber.mp3
+
+#begin sounds/BubbleCollide.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:sounds/BubbleCollide.mp3;BubbleCollide.mp3
+
+#begin sounds/BubbleCollide.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/BubbleCollide.mp3
+
+#begin sounds/BubblePop.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:sounds/BubblePop.mp3;BubblePop.mp3
+
+#begin sounds/BubblePop.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/BubblePop.mp3
+
+#begin sounds/Drop.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:sounds/Drop.mp3;Drop.mp3
+
+#begin sounds/Drop.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Drop.mp3
+
+#begin sounds/ExtraLifeConsume.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:sounds/ExtraLifeConsume.mp3;ExtraLifeConsume.mp3
+
+#begin sounds/ExtraLifeConsume.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/ExtraLifeConsume.mp3
+
+#begin sounds/Freeze.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:sounds/Freeze.mp3;Freeze.mp3
+
+#begin sounds/Freeze.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Freeze.mp3
+
+#begin sounds/Lose.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:sounds/Lose.mp3;Lose.mp3
+
+#begin sounds/Lose.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Lose.mp3
+
+#begin sounds/Magic.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:sounds/Magic.mp3;Magic.mp3
+
+#begin sounds/Magic.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Magic.mp3
+
+#begin sounds/PickCard.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:sounds/PickCard.mp3;PickCard.mp3
+
+#begin sounds/PickCard.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/PickCard.mp3
+
+#begin sounds/Rainbow.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:sounds/Rainbow.mp3;Rainbow.mp3
+
+#begin sounds/Rainbow.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Rainbow.mp3
+
+#begin sounds/Win.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:sounds/Win.mp3;Win.mp3
+
+#begin sounds/Win.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Win.mp3
 

@@ -49,6 +49,18 @@ class Globals
 
     public static SoundEffect LoseSound;
 
+    public static SoundEffect ExplodeSound;
+
+    public static SoundEffect FreezeSound;
+
+    public static SoundEffect RainbowSound;
+
+    public static SoundEffect MagicSound;
+
+    public static SoundEffect PickCardSound;
+
+    public static SoundEffect ExtraLifeConsumeSound;
+
     public static Song backgroundMusic;
 
     public static SoundEffectInstance DropSoundInstance;

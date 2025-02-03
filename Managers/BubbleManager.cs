@@ -112,6 +112,7 @@ public class BubbleManager : IComponent
                     {
                         ClearRow(_maxRows - i - 1);
                     }
+                    Globals.ExtraLifeConsumeSound.Play();
                     return;
                 }
                 Globals.GameState.CurrentState = GameState.State.GameOver;
@@ -344,6 +345,10 @@ public class BubbleManager : IComponent
                 bubble.StartPop(); // Start shrinking animation
             }
         }
+        if (playSound&&true)
+        {
+            Globals.PopSound?.Play();
+        }
         if (playSound)
         {
             Globals.PopSound?.Play();
@@ -380,7 +385,7 @@ public class BubbleManager : IComponent
                 bubblesToDestroy.Add(neighbor);
             }
         }
-
+        Globals.ExplodeSound.Play();
         return bubblesToDestroy;
     }
 
@@ -410,12 +415,15 @@ public class BubbleManager : IComponent
         }
 
         bubblesToDestroy.Add(new Vector2(col, row));
+        Globals.RainbowSound.Play();
         return bubblesToDestroy;
     }
 
     private HashSet<Vector2> GetFreezeBubblePop(int row, int col)
     {
+
         Globals.GameState.FreezeTime = FreezeBubble.FreezeTime;
+        Globals.FreezeSound.Play();
         return [new(col, row)];
     }
 
