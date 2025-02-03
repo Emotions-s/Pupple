@@ -55,8 +55,8 @@ public class GameState
         MissCount = 0;
         IgnorePercent = 50;
         StartLine = 4;
-        AmountTotalLine = 10;
-        CurrentAmountTotalLine = 0;
+        AmountTotalLine = 5;
+        CurrentAmountTotalLine = AmountTotalLine;
     }
 
     public void LevelUp()

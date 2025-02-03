@@ -32,13 +32,13 @@ public class PlayerState
     {
         MagicBubbles = new MagicBubble[MaxSpecialBubbleNum];
         AlreadyShieldedInRun = false;
-        CurrentBubbleQueueSize = 4;
-        ShooterRangeLv = 4;
-        AimRangeLv = 4;
-        HaveShields = true;
+        CurrentBubbleQueueSize = 0;
+        ShooterRangeLv = 0;
+        AimRangeLv = 0;
+        HaveShields = false;
 
-        BombNum = 4;
-        FreezeNum = 3;
-        RainbowNum = 4;
+        BombNum = 0;
+        FreezeNum = 0;
+        RainbowNum = 0;
     }
 }

@@ -328,10 +328,19 @@ public class BubbleManager : IComponent
         if (bubblesToDestroy.Count == 0 && Globals.GameState.FreezeTime <= 0)
         {
             Globals.GameState.MissCount++;
-            if (Globals.GameState.MissCount == Globals.GameState.MaxMissCount)
+            if (Globals.GameState.MissCount >= Globals.GameState.MaxMissCount)
             {
-                AddNewTopLine();
-                Globals.GameState.MissCount = 0;
+                if (Globals.GameState.CurrentAmountTotalLine > 0)
+                {
+                    AddNewTopLine();
+                    Globals.GameState.MissCount = 0;
+                    Globals.GameState.CurrentAmountTotalLine--;
+                }
+                else
+                {
+                    Globals.GameState.MissCount = 4;
+                }
+
             }
             return;
         }
@@ -353,7 +362,7 @@ public class BubbleManager : IComponent
                 bubble.StartPop(); // Start shrinking animation
             }
         }
-    
+
         if (playSound)
         {
             Globals.PopSoundInstance?.Play();
@@ -594,7 +603,8 @@ public class BubbleManager : IComponent
         }
     }
 
-    public List<BubbleColor> GetColorInBoard() {
+    public List<BubbleColor> GetColorInBoard()
+    {
         HashSet<BubbleColor> colors = new();
         for (int row = 0; row < _maxRows; row++)
         {
