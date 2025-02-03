@@ -85,23 +85,16 @@ public abstract class Bubble : IComponent
         }
         else
         {
-            // Increase velocity after bounce to ensure faster movement
-            float bounceSpeedMultiplier = 1.05f; // Adjust this to make it bounce faster
-
-            Position += Velocity * (float)Globals.Time * 2f; // Speed up the movement
-
-            // Bounce off walls properly and keep moving fast
-            if (Position.X <= Globals.BubbleRadius || Position.X >= PlayScene.GameWindowWidth - Globals.BubbleRadius)
+            Position += Velocity;
+            if (Position.X < Globals.BubbleRadius || Position.X > PlayScene.GameWindowWidth - Globals.BubbleRadius)
             {
-                Velocity = new Vector2(-Velocity.X * bounceSpeedMultiplier, Velocity.Y); // Reverse X direction with speed increase
+                Velocity = new Vector2(-Velocity.X, Velocity.Y);
             }
-
             //Ensure the ball keeps moving properly without getting stuck
             if (IsMoving && !IsInWindow())
             {
                 if (Position.Y <= Globals.BubbleRadius)
                 {
-                    // StartPop();
                     IsActive = false;
                 }
             }

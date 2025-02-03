@@ -523,7 +523,6 @@ public class BubbleManager : IComponent
             {
                 if (_bubbles[row, col] != null && !connectedToTop.Contains(new Vector2(col, row)))
                 {
-                    // _bubbles[row, col] = null;
                     _bubbles[row, col].StartFloating(); // Make it float up and fall
                     playSound = true;
                 }
@@ -531,7 +530,6 @@ public class BubbleManager : IComponent
         }
         if (playSound)
         {
-            // Globals.DropSound.Play();
             Globals.DropSoundInstance.Play();
         }
     }

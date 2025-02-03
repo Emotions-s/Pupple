@@ -17,7 +17,7 @@ class Globals
     public const float BubbleRadius = 28f;
     public const float BubblePadding = 2f;
     public static int GameWindowHeight = 1080;
-    public const float BubbleSpeed = 1000f;
+    public const float BubbleSpeed = 25f;
     public static SpriteBatch SpriteBatch { get; set; }
     public static ContentManager Content { get; set; }
     public static GraphicsDevice GraphicsDevice { get; set; }
