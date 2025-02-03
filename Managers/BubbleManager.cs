@@ -255,7 +255,7 @@ public class BubbleManager : IComponent
             }
         }
 
-        return colors;
+        return [.. colors];
     }
 
     public void AddBubble(Bubble bubble, int row, int col)
@@ -594,6 +594,21 @@ public class BubbleManager : IComponent
         }
     }
 
+    public List<BubbleColor> GetColorInBoard() {
+        HashSet<BubbleColor> colors = new();
+        for (int row = 0; row < _maxRows; row++)
+        {
+            for (int col = 0; col < _maxColumns; col++)
+            {
+                if (_bubbles[row, col] is NormalBubble)
+                {
+                    colors.Add(((NormalBubble)_bubbles[row, col]).Color);
+                }
+            }
+        }
+        return [.. colors];
+    }
+
     private void PrintGrid()
     {
         for (int row = 0; row < _maxRows; row++)
@@ -604,32 +619,5 @@ public class BubbleManager : IComponent
             }
             System.Console.WriteLine();
         }
-    }
-
-    public Bubble GetFirstBubbleCollision(Vector2 start, Vector2 end)
-    {
-        foreach (Bubble bubble in _bubbles)
-        {
-            if (bubble == null) continue;
-            if (IntersectsLine(start, end, bubble.Position, Globals.BubbleRadius))
-            {
-                return bubble; // Return the first bubble hit
-            }
-        }
-        return null;
-    }
-
-    private bool IntersectsLine(Vector2 lineStart, Vector2 lineEnd, Vector2 circleCenter, float radius)
-    {
-        Vector2 closest = ClosestPointOnLine(lineStart, lineEnd, circleCenter);
-        return (closest - circleCenter).LengthSquared() <= radius * radius;
-    }
-
-    private Vector2 ClosestPointOnLine(Vector2 a, Vector2 b, Vector2 point)
-    {
-        Vector2 ab = b - a;
-        float t = Vector2.Dot(point - a, ab) / Vector2.Dot(ab, ab);
-        t = MathHelper.Clamp(t, 0, 1);
-        return a + t * ab;
     }
 }

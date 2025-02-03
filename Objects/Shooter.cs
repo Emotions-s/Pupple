@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -44,7 +45,6 @@ public class Shooter : IComponent
 
         _viewport = new Rectangle(0, 360, 156, 156);
         _origin = new Vector2(_viewport.Width / 2f, _viewport.Height / 2f);
-
         Reset();
     }
 
@@ -59,7 +59,6 @@ public class Shooter : IComponent
     }
     public void Update()
     {
-
         if (Globals.GameState.CurrentState != GameState.State.Playing) return;
 
         HandleMoveShooter();
@@ -155,7 +154,7 @@ public class Shooter : IComponent
 
     private Bubble GenerateRandomBubble()
     {
-        BubbleColor randomColor = Common.GetRandomElement(Globals.GameState.BubbleColorsInGame);
+        BubbleColor randomColor = Common.GetRandomElement(Globals.BubbleManager.GetColorInBoard());
         Bubble bubble = new NormalBubble(_position, Globals.ShooterSceneSheet, randomColor);
         return bubble;
     }

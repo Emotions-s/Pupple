@@ -66,8 +66,6 @@ class Globals
     public static Song backgroundMusic;
     public static bool IsFalling = false;
 
-    
-
     public static SoundEffectInstance PopSoundInstance;
 
     public static SoundEffectInstance CollideSoundInstance;
