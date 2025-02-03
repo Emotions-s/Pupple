@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Pupple.Managers;
 using Pupple.States;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace Pupple;
 
@@ -47,6 +48,10 @@ class Globals
     public static SoundEffect WinSound;
 
     public static SoundEffect LoseSound;
+
+    public static Song backgroundMusic;
+
+    public static SoundEffectInstance DropSoundInstance;
     private Globals()
     {
     }

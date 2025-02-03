@@ -47,13 +47,10 @@ public abstract class Bubble : IComponent
     public void StartPop()
     {
         IsPopping = true;
-        Globals.PopSound?.Play();
-
     }
 
     public void StartFloating()
     {
-        Globals.DropSound.Play();
         IsFloating = true;
         elapsedTime = 0f;  // Reset time counter
     }

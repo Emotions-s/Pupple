@@ -335,7 +335,7 @@ public class BubbleManager : IComponent
         // Reset miss count if bubbles were destroyed
         Globals.GameState.MissCount = 0;
         _isClusterPopping = true; // Mark that a cluster is popping
-
+        bool playSound = false;
         foreach (Vector2 pos in bubblesToDestroy)
         {
             Bubble bubble = _bubbles[(int)pos.Y, (int)pos.X];
@@ -343,6 +343,10 @@ public class BubbleManager : IComponent
             {
                 bubble.StartPop(); // Start shrinking animation
             }
+        }
+        if (playSound)
+        {
+            Globals.PopSound?.Play();
         }
 
     }
@@ -512,7 +516,7 @@ public class BubbleManager : IComponent
                 FindConnectedBubbles(col, 0).ForEach(pos => connectedToTop.Add(pos));
             }
         }
-
+        bool playSound = false;
         for (int row = 1; row < _maxRows; row++)
         {
             for (int col = 0; col < _maxColumns; col++)
@@ -521,8 +525,14 @@ public class BubbleManager : IComponent
                 {
                     // _bubbles[row, col] = null;
                     _bubbles[row, col].StartFloating(); // Make it float up and fall
+                    playSound = true;
                 }
             }
+        }
+        if (playSound)
+        {
+            // Globals.DropSound.Play();
+            Globals.DropSoundInstance.Play();
         }
     }
 

@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using Pupple.Managers;
 using Pupple.States;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 
 namespace Pupple;
@@ -13,7 +12,6 @@ public class Pupple : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private GameManager _gameManager;
-    private Song backgroundMusic;
 
     public Pupple()
     {
@@ -26,6 +24,7 @@ public class Pupple : Game
     {
         _graphics.PreferredBackBufferWidth = Globals.ScreenW;
         _graphics.PreferredBackBufferHeight = Globals.ScreenH;
+        _graphics.IsFullScreen = true;
         _graphics.ApplyChanges();
 
         Window.Title = "Pubble Shooter";
@@ -53,12 +52,14 @@ public class Pupple : Game
         Globals.PopSound = Content.Load<SoundEffect>("BubblePop");
         Globals.CollideSound = Content.Load<SoundEffect>("BubbleCollide");
         Globals.DropSound = Content.Load<SoundEffect>("Drop");
+        Globals.DropSoundInstance = Globals.DropSound.CreateInstance();
+        Globals.DropSoundInstance.Volume = 0.3f;
         Globals.WinSound = Content.Load<SoundEffect>("Win");
         Globals.LoseSound = Content.Load<SoundEffect>("Lose");
-        backgroundMusic = Content.Load<Song>("BackgroundMusic");
+        Globals.backgroundMusic = Content.Load<Song>("BackgroundMusic");
         MediaPlayer.IsRepeating = true;
-        MediaPlayer.Play(backgroundMusic);
-        MediaPlayer.Volume = 0.3f;
+        MediaPlayer.Volume = 0.15f;
+        MediaPlayer.Play(Globals.backgroundMusic);
         _gameManager = new();
     }
 
